@@ -1,0 +1,456 @@
+homeassistant:
+
+
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 116
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Berlin
+
+  customize:
+    input_boolean.stuart_run:
+      hidden: true
+    group.all_automations:
+      hidden: true
+# Show links to resources in log and frontend
+#introduction:
+
+notify:
+  - name: html5push
+    platform: html5
+    gcm_api_key: !secret gcm_api_key
+    gcm_sender_id: !secret gcm_sender_id
+
+
+shell_command:
+  sleep_tom: 'curl -k http://tom-pc:8000/?action=System.Sleep'
+  sleep_peter: 'curl -k http://ares:8000/?action=System.Sleep'
+
+
+map:
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+recorder:
+  db_url: !secret db_url
+
+http:
+  # Uncomment this to add a password (recommended!)
+  api_password: !secret api_password
+  # Uncomment this if you are using SSL or running in Docker etc
+  # base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+
+# Discover some devices automatically
+discovery:
+
+maxcube:
+   host: 192.168.178.110
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time.
+history:
+
+# View all events in a logbook
+logbook:
+
+# Track the sun
+sun:
+
+# Weather Prediction
+#sensor:
+#  platform: yr
+
+# Text to speech
+tts:
+  platform: google
+
+
+
+google_assistant:
+  project_id: !secret project_id
+  client_id: !secret client_id
+  access_token: !secret access_token
+  exposed_domains:
+    - switch
+    - light
+    - group
+
+group: !include groups.yaml
+automation: !include automations.yaml
+
+emulated_hue:
+
+input_boolean:
+  stuart_run:
+    name: Track whether Stuart has already run today
+    initial: off
+    icon: mdi:robot
+
+  
+xiaomi_aqara:
+  gateways:
+   - mac: 34:CE:00:83:80:EA
+     key: !secret xiaomi_key
+
+
+switch:
+  - platform: broadlink
+    host: 192.168.178.106
+    mac: '34:EA:34:8E:E1:A4'
+    timeout: 15
+    switches:
+      projector:
+        friendly_name: "Projector Power"
+        command_off: 'JgDYAAABKZIUERQRFBETERQRFBEUERQRFBETEhMRFBEUNhQ1FBEUERQRFDUUNhQ2ExITERQ2FBEUNRQRFBEUERQ2EzYUERQ2EwAF'
+        command_on: 'JgBAAgABKZIUERQRFBEUEBQRFBEUERQRFBEUERMRFBEUNhQ1FBEUERQ2FDUUNhQ1FBEUERQ2FBETERQRFBEUERQ2EzYUERQ2FAAF'
+  - platform: flux
+    lights:
+      - light.floalt_panel_ws_60x60 
+      - light.floalt_panel_ws_60x60_2 
+    name: Fluxer
+    start_time: '7:00'
+    stop_time: '23:00'
+    start_colortemp: 4000
+    sunset_colortemp: 3000
+    stop_colortemp: 2200
+    brightness: 200
+    disable_brightness_adjust: True
+    mode: mired
+  - platform: mqtt
+    name: "Stuart"
+    command_topic: "/home/neato/write"
+    state_topic: "/home/neato/status"
+    payload_on: "Clean House"
+    payload_off: "Clean Stop"
+#  - platform: pilight
+#    switches:
+#      Bench Light:
+#        on_code:
+#          protocol: elro_400_switch
+#          systemcode: 0
+#          unitcode: 29
+#          'on': 1
+#        off_code:
+#          protocol: elro_400_switch
+#          systemcode: 0
+#          unitcode: 29
+#          'off': 1
+#        on_code_receive:
+#          protocol: elro_400_switch
+#          systemcode: 0
+#          unitcode: 29
+#          state: 'on'
+#        off_code_receive:
+#          protocol: elro_400_switch
+#          systemcode: 0
+#          unitcode: 29
+#          state: 'off'
+#      3D Printer:
+#        on_code:
+#          protocol: elro_400_switch
+#          systemcode: 0
+#          unitcode: 27
+#          'on': 1
+#        off_code:
+#          protocol: elro_400_switch
+#          systemcode: 0
+#          unitcode: 27
+#          'off': 1
+#      Soldering Station:
+#        on_code:
+#          protocol: elro_400_switch
+#          systemcode: 0
+#          unitcode: 15
+#          'on': 1
+#        off_code:
+#          protocol: elro_400_switch
+#          systemcode: 0
+#          unitcode: 15
+#          'off': 1
+  
+  
+sensor:
+
+  - platform: speedtest
+    monitored_conditions:
+      - ping
+      - download
+      - upload
+
+  - platform: haveibeenpwned
+    email:
+      - tom@penberth.com
+      - jane@penberth.com
+      - dewgenenenny@gmail.com
+
+  - platform: transmission
+    host: !secret transmission_host
+    monitored_variables:
+      - 'current_status'
+      - 'download_speed'
+      - 'upload_speed'
+
+  - platform: octoprint
+    name: OctoPrint
+    monitored_conditions:
+      - Current State
+      - Temperatures
+      - Job Percentage
+
+  - platform: mqtt
+    state_topic: "/home/neato/battery"
+    name: "Stuarts Battery"
+    unit_of_measurement: "%"
+
+  - platform: mqtt
+    state_topic: "outside_temp"
+    name: "Outside Temperature"
+    unit_of_measurement: "c"
+    value_template: '{{ value_json.temp }}'
+
+  - platform: mqtt
+    state_topic: "outside_temp"
+    name: "Outside Humidity"
+    unit_of_measurement: "%"
+    value_template: '{{ value_json.humidity }}'
+
+  - platform: mqtt
+    state_topic: "outside_temp"
+    name: "Atmospheric Pressure"
+    unit_of_measurement: "mBars"
+    value_template: '{{ value_json.pressure }}'
+
+  - platform: mqtt
+    state_topic: "kleikamp_brightness"
+    name: "Outside Brightness"
+    unit_of_measurement: "bright"
+    value_template: '{{ value_json.Brightness }}'
+
+  - platform: fritzbox_netmonitor
+    host: 192.168.178.1
+    monitored_conditions:
+      - bytes_sent
+      - bytes_received
+
+  - platform: fritzbox_callmonitor
+    host: 192.168.178.1
+    username: !secret fritzbox_username
+    password: !secret fritzbox_password
+
+  - platform: openweathermap
+    api_key: !secret owm_api_key
+    forecast: 1
+    monitored_conditions:
+      - weather
+      - temperature
+      - humidity
+      - pressure
+      - clouds
+      - rain
+      - snow
+      - wind_speed
+      - wind_bearing
+
+weather:
+  - platform: openweathermap
+    api_key: !secret owm_api_key
+
+media_player:
+  - platform: plex
+  - platform: spotify
+    client_id: !secret spotify_client_id
+    client_secret: !secret spotify_client_secret
+  - platform: kodi
+    host: 192.168.178.234
+    username: !secret kodi_username
+    password: !secret kodi_password
+
+device_tracker:
+  - platform: fritz
+    track_new_devices: false
+    host: 192.168.178.1
+  - platform: gpslogger
+
+zone:
+  name: Work
+  latitude: !secret work_latitude
+  longitude: !secret work_longitude
+  radius: 5000
+  icon: mdi:factory
+
+zone 2:
+  name: Home
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  radius: 500
+  icon: mdi:home
+
+zone 3:
+  name: Braunschweig
+  latitude: !secret braunschweig_latitude
+  longitude: !secret braunschweig_longitude
+  radius: 6000
+  icon: mdi:city
+
+
+camera:
+ - platform: mjpeg
+   mjpeg_url: !secret mjpeg_url
+   name: Printer
+ - platform: mjpeg
+   mjpeg_url: http://192.168.178.20:10090/video7.mjpg?user=&fps=5
+   still_image_url: http://192.168.178.20:10090/image7.jpg
+   name: Garden
+ - platform: mjpeg
+   mjpeg_url: http://192.168.178.20:10090/video8.mjpg?user=&fps=5
+   still_image_url: http://192.168.178.20:10090/image8.jpg
+   name: Front_Door
+
+# - platform: ffmpeg
+#   name: Garden
+#   input: rtsp://admin:@192.168.178.92:554/0/video0
+  
+ffmpeg:
+  ffmpeg_bin: /usr/bin/ffmpeg
+
+
+
+#image_processing:
+#  - platform: dlib_face_detect
+#    source:
+#      - entity_id: camera.Printer
+
+image_processing:
+  - platform: opencv
+    name: Frontdoor_Faces
+    source:
+      - entity_id: camera.Front_Door
+    classifier:
+      mom: /config/haarcascade_fullbody.xml  
+
+light:
+  - platform: flux_led
+    automatic_add: True
+
+mqtt:
+  broker: 192.168.178.20
+
+octoprint:
+  host: octopi
+  api_key: !secret octoprint_api_key
+  bed: true
+  number_of_tools: 1
+
+
+
+binary_sensor:
+  - platform: trend
+    sensors:
+      haveibeenpwned:
+        friendly_name: 'Tom pwned?' 
+        entity_id: sensor.breaches_tom
+  - platform: octoprint
+    monitored_conditions:
+      - Printing
+      - Printing Error
+
+
+#tradfri:
+#  host: 192.168.178.83
+#  api_key: GsNjIyPyi4lLL8n0
+
+
+scene:
+  - name: CosyUp
+    entities:
+      switch.plug_158d00017023d8:
+        state: on
+      light.tradfri_bulb_e27_opal_1000lm:
+        state: on
+        brightness: 200
+        transition: 600
+      light.tradfri_bulb_e27_opal_1000lm_2:
+        state: on
+        brightness: 200
+        transition: 600
+      light.tradfri_bulb_e27_opal_1000lm_3:
+        state: on
+        brightness: 200
+        transition: 600
+      light.floalt_panel_ws_60x60:
+        state: on
+        brightness: 169
+        color_temp: 454
+      light.floalt_panel_ws_60x60_2:
+        state: on
+        brightness: 169
+        color_temp: 454
+        
+  - name: NightNight
+    entities:
+      switch.plug_158d00017023d8:
+        state: off
+      light.tradfri_bulb_e27_opal_1000lm:
+        state: off
+      light.tradfri_bulb_e27_opal_1000lm_2:
+        state: off
+      light.tradfri_bulb_e27_opal_1000lm_3:
+        state: off
+      light.bedroom_lamp:
+        state: on
+      light.floalt_panel_ws_60x60:
+        state: on
+        brightness: 169
+        color_temp: 454
+      light.floalt_panel_ws_60x60_2:
+        state: on
+        brightness: 169
+        color_temp: 454
+
+  - name: Livingroom_normal
+    entities:
+        light.tradfri_bulb_e27_opal_1000lm:
+            state: on
+            transition: 2
+            brightness_pct: 100
+        light.tradfri_bulb_e27_opal_1000lm_2:
+            state: on
+            transition: 2
+            brightness_pct: 100
+        light.tradfri_bulb_e27_opal_1000lm_3:
+            state: on
+            transition: 2
+            brightness_pct: 100
+  - name: Livingroom_dim
+    entities:
+        light.tradfri_bulb_e27_opal_1000lm:
+            state: on
+            transition: 2
+            brightness_pct: 20
+        light.tradfri_bulb_e27_opal_1000lm_2:
+            state: on
+            transition: 2
+            brightness_pct: 20
+        light.tradfri_bulb_e27_opal_1000lm_3:
+            state: on
+            transition: 2
+            brightness_pct: 20

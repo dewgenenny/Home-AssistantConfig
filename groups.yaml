@@ -1,0 +1,59 @@
+living_room:
+  name: Living Room
+  view: false
+  entities:
+  - light.tradfri_bulb_e27_opal_1000lm
+  - light.tradfri_bulb_e27_opal_1000lm_2
+  - light.tradfri_bulb_e27_opal_1000lm_3
+  - switch.plug_158d00017023d8
+
+hallway_lights:
+  name: Hallway
+  view: false
+  entities:
+  - light.floalt_panel_ws_60x60
+  - light.floalt_panel_ws_60x60_2
+
+all_radiators:
+  name: All Radiators
+  view: true
+  entities:
+  - climate.bathroom_radiator
+  - climate.conservatory_radiator
+  - climate.dining_room_radiator
+  - climate.ellies_room_radiator
+  - climate.living_room_radiator
+  - climate.master_bedroom_radiator
+  - climate.office_radiator
+  - climate.olives_room_radiator
+  - climate.peters_room_radiator
+  - climate.play_room_radiator
+
+downstairs_radiators:
+  name: Downstairs Radiators
+  view: false
+  entities: 
+  - climate.bathroom_radiator
+  - climate.conservatory_radiator
+  - climate.dining_room_radiator
+  - climate.living_room_radiator
+  - climate.play_room_radiator
+
+upstairs_radiators:
+  name: Upstairs Radiators
+  view: false
+  entities:
+  - climate.ellies_room_radiator
+  - climate.master_bedroom_radiator
+  - climate.office_radiator
+  - climate.olives_room_radiator
+  - climate.peters_room_radiator
+
+
+tracked_people:
+  name: Tracked people
+  view: false
+  entities:
+  - device_tracker.toms_phone
+  - device_tracker.janes_phone
+

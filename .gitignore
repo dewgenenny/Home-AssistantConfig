@@ -1,0 +1,11 @@
+*
+!*.yaml
+!scenes
+!.gitignore
+secrets.yaml
+known_devices.yaml
+html5_push_registrations.conf
+tradfri.conf
+creds.data
+project.json
+plex.conf
