@@ -18,9 +18,6 @@ homeassistant:
       hidden: true
     group.all_automations:
       hidden: true
-# Show links to resources in log and frontend
-#introduction:
-
 notify:
   - name: html5push
     platform: html5
