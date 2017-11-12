@@ -186,6 +186,18 @@ switch:
   
   
 sensor:
+  
+  - platform: google_travel_time
+    api_key: !secret google_travel_time_api_key
+    name: Time to work
+    origin: device_tracker.toms_phone
+    destination: !secret toms_work_address
+
+  - platform: google_travel_time
+    api_key: !secret google_travel_time_api_key
+    name: Time to home
+    origin: device_tracker.toms_phone
+    destination: !secret home_address
 
   - platform: speedtest
     monitored_conditions:
