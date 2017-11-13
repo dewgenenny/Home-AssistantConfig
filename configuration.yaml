@@ -18,6 +18,26 @@ homeassistant:
       hidden: true
     group.all_automations:
       hidden: true
+    sensor.yucca_moisture:
+      hidden: true
+    sensor.yucca_battery:
+      hidden: true
+    sensor.yucca_temperature:
+      hidden: true
+    sensor.yucca_conductivity:
+      hidden: true
+    sensor.yucca_brightness:
+      hidden: true
+    sensor.bedroom_plant_moisture:
+      hidden: true
+    sensor.bedroom_plant_battery:
+      hidden: true
+    sensor.bedroom_plant_temperature:
+      hidden: true
+    sensor.bedroom_plant_conductivity:
+      hidden: true
+    sensor.bedroom_plant_brightness:
+      hidden: true
 notify:
   - name: html5push
     platform: html5
@@ -40,6 +60,11 @@ config:
 
 recorder:
   db_url: !secret db_url
+
+influxdb:
+  host: 192.168.178.20
+  username: home-assistant
+  password: !secret influxdb_password
 
 http:
   # Uncomment this to add a password (recommended!)
@@ -107,6 +132,32 @@ xiaomi_aqara:
   gateways:
    - mac: 34:CE:00:83:80:EA
      key: !secret xiaomi_key
+
+plant:
+  yucca:
+    sensors:
+      moisture: sensor.yucca_moisture
+      battery: sensor.yucca_battery
+      temperature: sensor.yucca_temperature
+      conductivity: sensor.yucca_conductivity
+      brightness: sensor.yucca_brightness
+    min_moisture: 20
+    max_moisture: 60
+    min_battery: 17
+    min_conductivity: 500
+    min_temperature: 15
+  bedroom_plant:
+    sensors:
+      moisture: sensor.bedroom_plant_moisture
+      battery: sensor.bedroom_plant_battery
+      temperature: sensor.bedroom_plant_temperature
+      conductivity: sensor.bedroom_plant_conductivity
+      brightness: sensor.bedroom_plant_brightness
+    min_moisture: 20
+    max_moisture: 60
+    min_battery: 17
+    min_conductivity: 500
+    min_temperature: 15
 
 
 switch:
@@ -254,6 +305,59 @@ sensor:
     unit_of_measurement: "bright"
     value_template: '{{ value_json.Brightness }}'
 
+  - platform: mqtt
+    name: yucca_moisture
+    state_topic: kleikamp12/plants/Yucca/
+    value_template: '{{ value_json.moisture }}'
+    hidden: true
+  - platform: mqtt
+    name: yucca_battery
+    state_topic: kleikamp12/plants/Yucca/
+    value_template: '{{ value_json.battery }}'
+    hidden: true
+  - platform: mqtt
+    name: yucca_temperature
+    state_topic: kleikamp12/plants/Yucca/
+    value_template: '{{ value_json.temperature }}'
+    hidden: true
+  - platform: mqtt
+    name: yucca_conductivity
+    state_topic: kleikamp12/plants/Yucca/
+    value_template: '{{ value_json.conductivity }}'
+    hidden: true
+  - platform: mqtt
+    name: yucca_brightness
+    state_topic: kleikamp12/plants/Yucca/
+    value_template: '{{ value_json.brightness }}'
+    hidden: true
+
+  - platform: mqtt
+    name: bedroom_plant_moisture
+    state_topic: kleikamp12/plants/bedroom_plant/
+    value_template: '{{ value_json.moisture }}'
+    hidden: true
+  - platform: mqtt
+    name: bedroom_plant_battery
+    state_topic: kleikamp12/plants/bedroom_plant/
+    value_template: '{{ value_json.battery }}'
+    hidden: true
+  - platform: mqtt
+    name: bedroom_plant_temperature
+    state_topic: kleikamp12/plants/bedroom_plant/
+    value_template: '{{ value_json.temperature }}'
+    hidden: true
+  - platform: mqtt
+    name: bedroom_plant_conductivity
+    state_topic: kleikamp12/plants/bedroom_plant/
+    value_template: '{{ value_json.conductivity }}'
+    hidden: true
+  - platform: mqtt
+    name: bedroom_plant_brightness
+    state_topic: kleikamp12/plants/bedroom_plant/
+    value_template: '{{ value_json.brightness }}'
+    hidden: true
+
+
   - platform: fritzbox_netmonitor
     host: 192.168.178.1
     monitored_conditions:
@@ -364,7 +468,7 @@ mqtt:
   broker: 192.168.178.20
 
 octoprint:
-  host: octopi
+  host: orangepizero:5000
   api_key: !secret octoprint_api_key
   bed: true
   number_of_tools: 1
@@ -382,6 +486,12 @@ binary_sensor:
       - Printing
       - Printing Error
 
+proximity:
+  home: 
+    devices:
+      - device_tracker.toms_phone
+    tolerance: 50
+    unit_of_measurement: km
 
 #tradfri:
 #  host: 192.168.178.83
