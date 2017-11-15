@@ -74,3 +74,72 @@
             transition: 2
             brightness_pct: 20
 
+  - name: night_temps
+    entities:
+      climate.bathroom_radiator:
+        temperature: 18
+      climate.conservatory_radiator:
+        temperature: 16
+      climate.dining_room_radiator:
+        temperature: 16
+      climate.ellies_room_radiator:
+        temperature: 18
+      climate.living_room_radiator:
+        temperature: 16
+      climate.master_bedroom_radiator:
+        temperature: 18
+      climate.office_radiator:
+        temperature: 16
+      climate.olives_room_radiator:
+        temperature: 18
+      climate.peters_room_radiator:
+        temperature: 18
+      climate.play_room_radiator:
+        temperature: 16
+      
+  - name: away_temps
+    entities:
+      climate.bathroom_radiator:
+        temperature: 16
+      climate.conservatory_radiator:
+        temperature: 18
+      climate.dining_room_radiator:
+        temperature: 18
+      climate.ellies_room_radiator:
+        temperature: 18
+      climate.living_room_radiator:
+        temperature: 18
+      climate.master_bedroom_radiator:
+        temperature: 16
+      climate.office_radiator:
+        temperature: 16
+      climate.olives_room_radiator:
+        temperature: 18
+      climate.peters_room_radiator:
+        temperature: 16
+      climate.play_room_radiator:
+        temperature: 16
+      
+  - name: here_temps
+    entities:
+      climate.bathroom_radiator:
+        temperature: 20
+      climate.conservatory_radiator:
+        temperature: 20
+      climate.dining_room_radiator:
+        temperature: 20
+      climate.ellies_room_radiator:
+        temperature: 20
+      climate.living_room_radiator:
+        temperature: 20
+      climate.master_bedroom_radiator:
+        temperature: 18
+      climate.office_radiator:
+        temperature: 18
+      climate.olives_room_radiator:
+        temperature: 20
+      climate.peters_room_radiator:
+        temperature: 19
+      climate.play_room_radiator:
+        temperature: 19
+      

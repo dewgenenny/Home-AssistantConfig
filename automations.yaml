@@ -10,10 +10,8 @@
     # Event is either enter or leave
     event: leave  # or "leave"
   action:
-  - service: climate.set_temperature
-    data:
-      entity_id: group.all_radiators
-      temperature: 20
+  - service: scene.turn_on
+    entity_id: scene.here_temps
   - service: notify.html5push
     data:
       message: "Turned heating up"
@@ -93,10 +91,8 @@
       minutes: 30
       seconds: 0
   action:
-  - service: climate.set_temperature
-    data:
-      entity_id: group.all_radiators
-      temperature: 18
+  - service: scene.turn_on
+    entity_id: scene.away_temps
   - service: notify.html5push
     data:
       message: "Turning down heating, no one home"
@@ -120,10 +116,8 @@
     - condition: time
       before: '22:30:00'
   action:
-  - service: climate.set_temperature
-    data:
-      entity_id: group.all_radiators
-      temperature: 20
+  - service: scene.turn_on
+    entity_id: scene.here_temps
   - service: notify.html5push
     data:
       message: "Turning up heating, welcome home!"
@@ -186,10 +180,8 @@
     event_data:
       action: reset
   action:
-  - service: climate.set_temperature
-    data:
-      entity_id: group.all_radiators
-      temperature: 20
+  - service: scene.turn_on
+    entity_id: scene.here_temps
   - service: notify.html5push
     data:
       message: "Heating set back to 20"
@@ -303,16 +295,14 @@
   alias: Start the Day
   trigger:
     platform: time
-    hours: 5
-    minutes: 0
+    hours: 4
+    minutes: 30
     seconds: 0
   action:
   - service: homeassistant.turn_off
     entity_id: input_boolean.stuart_run
-  - service: climate.set_temperature
-    data:
-      entity_id: group.all_radiators
-      temperature: 20
+  - service: scene.turn_on
+    entity_id: scene.here_temps
 
 
 - id: PrepareForBed
@@ -343,10 +333,8 @@
     entity_id: switch.projector_power
   - service: homeassistant.turn_off
     entity_id: switch.projector_power
-  - service: climate.set_temperature
-    data:
-      entity_id: group.all_radiators
-      temperature: 18
+  - service: scene.turn_on
+    entity_id: scene.night_temps
 
 
 
