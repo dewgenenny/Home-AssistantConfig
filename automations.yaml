@@ -29,7 +29,7 @@
   action:
   - service: notify.html5push_jane_phone
     data:
-      message: "Toms on way home"
+      message: "Hurray!!! Tom is on his way home"
 
 
 - id: noonehome
