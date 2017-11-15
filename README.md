@@ -1,4 +1,4 @@
-# Home-AssistantConfig
+# Home-AssistantConfig https://travis-ci.org/dewgenenny/Home-AssistantConfig.svg?branch=master
 
 This is the backup of my Home Assistant config. Home Assistant (https://home-assistant.io/) is an awesome home automation software that allows you to automate pretty much everything.
 
