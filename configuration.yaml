@@ -452,13 +452,13 @@ ffmpeg:
 #    source:
 #      - entity_id: camera.Printer
 
-image_processing:
-  - platform: opencv
-    name: Frontdoor_Faces
-    source:
-      - entity_id: camera.Front_Door
-    classifier:
-      mom: /config/haarcascade_fullbody.xml  
+#image_processing:
+#  - platform: opencv
+#    name: Frontdoor_Faces
+#    source:
+#      - entity_id: camera.Front_Door
+#    classifier:
+#      mom: /config/haarcascade_fullbody.xml  
 
 light:
   - platform: flux_led
