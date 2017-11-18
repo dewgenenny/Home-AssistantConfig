@@ -430,13 +430,17 @@ camera:
    mjpeg_url: !secret mjpeg_url
    name: Printer
  - platform: mjpeg
-   mjpeg_url: http://192.168.178.20:10090/video7.mjpg?user=&fps=5
+   mjpeg_url: http://192.168.178.20:10090/video7.mjpg?user=&fps=10
    still_image_url: http://192.168.178.20:10090/image7.jpg
    name: Garden
  - platform: mjpeg
-   mjpeg_url: http://192.168.178.20:10090/video8.mjpg?user=&fps=5
+   mjpeg_url: http://192.168.178.20:10090/video8.mjpg?user=&fps=10
    still_image_url: http://192.168.178.20:10090/image8.jpg
    name: Front_Door
+ - platform: mjpeg
+   mjpeg_url: http://192.168.178.20:10090/video13.mjpg?user=&fps=10
+   still_image_url: http://192.168.178.20:10090/image13.jpg
+   name: Car_Port
 
 # - platform: ffmpeg
 #   name: Garden
