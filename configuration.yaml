@@ -66,6 +66,7 @@ influxdb:
   username: home-assistant
   password: !secret influxdb_password
 
+
 http:
   # Uncomment this to add a password (recommended!)
   api_password: !secret api_password
@@ -161,6 +162,29 @@ plant:
 
 
 switch:
+  - platform: command_line
+    switches:
+      arest_pin_four:
+        command_on: "/usr/bin/curl -X GET http://192.168.178.103/control?cmd=GPIO,12,1"
+        command_off: "/usr/bin/curl -X GET http://192.168.1.103/control?cmd=GPIO,12,0"
+        command_state: "/usr/local/bin/python3.6 /config/espeasy_state.py --gpio 12 192.168.178.103"
+        friendly_name: Garden Lightswitch
+  - platform: mqtt
+    name: "conservatory_light"
+    state_topic: "/ConservatoryLight/Relay/Switch"
+    command_topic: "/ConservatoryLight/gpio/12"
+    payload_on: "1"
+    payload_off: "0"
+    qos: 1
+    retain: true
+  - platform: mqtt
+    name: "garden_light"
+    state_topic: "/GardenLight/relay/Switch"
+    command_topic: "/GardenLight/gpio/12"
+    payload_on: "1"
+    payload_off: "0"
+    qos: 1
+    retain: true
   - platform: broadlink
     host: 192.168.178.106
     mac: '34:EA:34:8E:E1:A4'
@@ -237,6 +261,8 @@ switch:
   
   
 sensor:
+  - platform: pi_hole
+    host: 192.168.178.20
   
   - platform: google_travel_time
     api_key: !secret google_travel_time_api_key
@@ -275,6 +301,11 @@ sensor:
       - Current State
       - Temperatures
       - Job Percentage
+
+  - platform: mqtt
+    state_topic: "/ESP_Easy/kwh/Count"
+    name: "Power usage"
+    unit_of_measurement: "wH"
 
   - platform: mqtt
     state_topic: "/home/neato/battery"

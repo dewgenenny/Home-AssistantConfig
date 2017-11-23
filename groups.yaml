@@ -5,7 +5,7 @@ living_room:
   - light.tradfri_bulb_e27_opal_1000lm
   - light.tradfri_bulb_e27_opal_1000lm_2
   - light.tradfri_bulb_e27_opal_1000lm_3
-  - switch.plug_158d00017023d8
+  - switch.conservatory_light
 
 hallway_lights:
   name: Hallway

@@ -46,7 +46,7 @@
   - service: shell_command.sleep_tom
   - service: shell_command.sleep_peter
   - service: homeassistant.turn_off
-    entity_id: switch.plug_158d00017023d8
+    entity_id: switch.conservatory_light 
 
 
 
@@ -238,7 +238,7 @@
   - service: light.turn_off
     entity_id: group.all_lights
   - service: homeassistant.turn_off
-    entity_id: switch.plug_158d00017023d8
+    entity_id: switch.conservatory_light
   - service: climate.set_temperature
     data:
       entity_id: group.all_radiators
@@ -284,9 +284,8 @@
     - condition: time
       before: 07:30:00
   action:
-  - service: homeassistant.turn_on
-    entity_id: group.living_room
-
+  - service: scene.turn_on
+    entity_id: scene.Livingroom_normal
 
 
 
