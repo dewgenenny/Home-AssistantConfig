@@ -162,29 +162,14 @@ plant:
 
 
 switch:
-  - platform: command_line
+  - platform: sonoff
     switches:
-      arest_pin_four:
-        command_on: "/usr/bin/curl -X GET http://192.168.178.103/control?cmd=GPIO,12,1"
-        command_off: "/usr/bin/curl -X GET http://192.168.1.103/control?cmd=GPIO,12,0"
-        command_state: "/usr/local/bin/python3.6 /config/espeasy_state.py --gpio 12 192.168.178.103"
-        friendly_name: Garden Lightswitch
-  - platform: mqtt
-    name: "conservatory_light"
-    state_topic: "/ConservatoryLight/Relay/Switch"
-    command_topic: "/ConservatoryLight/gpio/12"
-    payload_on: "1"
-    payload_off: "0"
-    qos: 1
-    retain: true
-  - platform: mqtt
-    name: "garden_light"
-    state_topic: "/GardenLight/relay/Switch"
-    command_topic: "/GardenLight/gpio/12"
-    payload_on: "1"
-    payload_off: "0"
-    qos: 1
-    retain: true
+      garden_light:
+        host: 192.168.178.103
+        name: 'Garden Light'
+      conservatory_light:
+        host: 192.168.178.112
+        name: 'Conservatory Light'
   - platform: broadlink
     host: 192.168.178.106
     mac: '34:EA:34:8E:E1:A4'

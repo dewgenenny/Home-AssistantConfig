@@ -390,6 +390,22 @@
   alias: "Media player paused/stopped"
   trigger:
     - platform: state
+      entity_id: media_player.plex_web_chrome 
+      from: 'playing'
+      to: 'paused'
+    - platform: state
+      entity_id: media_player.plex_web_chrome
+      from: 'playing'
+      to: 'idle'
+    - platform: state
+      entity_id: media_player.projector
+      from: 'playing'
+      to: 'paused'
+    - platform: state
+      entity_id: media_player.projector
+      from: 'playing'
+      to: 'idle'
+    - platform: state
       entity_id: media_player.kodi
       from: 'playing'
       to: 'paused'
@@ -409,6 +425,22 @@
   alias: "Media player playing"
   trigger:
     - platform: state
+      entity_id: media_player.plex_web_chrome
+      to: 'playing'
+      from: 'paused'
+    - platform: state
+      entity_id: media_player.plex_web_chrome
+      to: 'playing'
+      from: 'idle'
+    - platform: state
+      entity_id: media_player.projector
+      to: 'playing'
+      from: 'paused'
+    - platform: state
+      entity_id: media_player.projector
+      to: 'playing'
+      from: 'idle'
+    - platform: state
       entity_id: media_player.kodi
       to: 'playing'
       from: 'paused'
@@ -424,6 +456,8 @@
       service: scene.turn_on
       entity_id: scene.livingroom_dim
   
+
+
 
 - id: water_yucca
   alias: "Remind me to water our Yucca"
