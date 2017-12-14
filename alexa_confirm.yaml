@@ -1,0 +1,19 @@
+          > 
+          {{ [
+          "If you insist",
+          "No worries",
+          "Yes, Emperor",
+          "I can do that",
+          "Leave it to me",
+          "Consider it done",
+          "As you wish",
+          "By your command",
+          "Affirmative",
+          "My pleasure!",
+          "Yes oh revered one",
+          "I will",
+          "No wuckers",
+          "Yes Master",
+          "As you decree, so shall it be",
+          "No Problem"
+          ] | random }} 

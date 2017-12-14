@@ -123,6 +123,21 @@
       message: "Turning up heating, welcome home!"
 
 
+- id: lights_on_when_arrive_home
+  alias: Turn on lights when we're back
+  trigger:
+    platform: state
+    entity_id: group.tracked_people
+    to: home
+  condition:
+    condition: and
+    conditions:
+    - condition: sun
+      after: sunset
+      before_offset: -02:00:00
+  action:
+  - service: scene.turn_on
+    entity_id: scene.CosyUp
 
 
 

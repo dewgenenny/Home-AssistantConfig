@@ -1,0 +1,73 @@
+  LocateTomIntent:  # Intent type
+    speech:
+      text: Tom is at {{states.device_tracker.toms_phone.state}}
+  LocateJaneIntent:  # Intent type
+    speech:
+      text: Jane is at {{states.device_tracker.janes_phone.state}}
+  VacuumHouseIntent:
+    async_action: true
+    action:
+    - service: notify.html5push
+      data:
+        message: "Vacuuming the house"
+    - service: homeassistant.turn_on
+      entity_id: switch.stuart
+    - delay: 00:00:05
+    - service: homeassistant.turn_off
+      entity_id: switch.stuart
+    - delay: 00:00:05
+    - service: homeassistant.turn_on
+      entity_id: switch.stuart
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.stuart_run
+    speech:
+      text: !include alexa_confirm.yaml
+  OutsideLightOnIntent:
+    async_action: true
+    action:
+    - service: homeassistant.turn_on
+      entity_id: switch.garden_light
+    speech:
+      text: !include alexa_confirm.yaml
+  OutsideLightOffIntent:
+    async_action: true
+    action:
+    - service: homeassistant.turn_off
+      entity_id: switch.garden_light
+    speech:
+      text: !include alexa_confirm.yaml
+  ThreeDeePrinterOffIntent:
+    async_action: true
+    action:
+    - service: homeassistant.turn_off
+      entity_id: switch.plug_158d00017023d8
+    speech:
+      text: !include alexa_confirm.yaml
+  ThreeDeePrinterOnIntent:
+    async_action: true
+    action:
+    - service: homeassistant.turn_on
+      entity_id: switch.plug_158d00017023d8
+    speech:
+      text: !include alexa_confirm.yaml
+
+  TemperatureOutsideIntent:  # Intent type
+    speech:
+      text: The temperature outside is {{states.sensor.outside_temperature.state}} degrees
+  HumidityOutsideIntent:  # Intent type
+    speech:
+      text: The humidity outside is {{states.sensor.outside_humidity.state}} percent
+  LivingRoomLightsOnIntent:
+    async_action: true
+    action:
+    - service: homeassistant.turn_on
+      entity_id: group.living_room
+    speech:
+      text: !include alexa_confirm.yaml
+  LivingRoomLightsOffIntent:
+    async_action: true
+    action:
+    - service: homeassistant.turn_off
+      entity_id: group.living_room
+    speech:
+      text: !include alexa_confirm.yaml

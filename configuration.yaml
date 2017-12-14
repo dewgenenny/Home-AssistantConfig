@@ -47,8 +47,11 @@ notify:
 
 shell_command:
   sleep_tom: 'curl -k http://tom-pc:8000/?action=System.Sleep'
-  sleep_peter: 'curl -k http://ares:8000/?action=System.Sleep'
+  sleep_peter: 'curl -k http://192.168.178.86:8000/?action=System.Sleep'
 
+alexa:
+
+intent_script: !include alexa_intent_scripts.yaml
 
 map:
 
