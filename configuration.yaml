@@ -51,8 +51,6 @@ shell_command:
 
 alexa:
 
-google_fit:
-
 intent_script: !include alexa_intent_scripts.yaml
 
 map:
@@ -62,6 +60,8 @@ frontend:
 
 # Enables configuration UI
 config:
+
+script: !include scripts.yaml
 
 recorder:
   db_url: !secret db_url
@@ -182,7 +182,7 @@ switch:
     switches:
       projector:
         friendly_name: "Projector Power"
-        command_off: 'JgDYAAABKZIUERQRFBETERQRFBEUERQRFBETEhMRFBEUNhQ1FBEUERQRFDUUNhQ2ExITERQ2FBEUNRQRFBEUERQ2EzYUERQ2EwAF'
+        command_off: 'JgBIAAABH44QEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQNBA0EBAQEBAQEDQQNBA0EBAQEBA0EBAQNBAQEBAQEBA0EDQQEBA0EAAFwQ0FAAAAAAAAAAAAAAAAAAA='
         command_on: 'JgBAAgABKZIUERQRFBEUEBQRFBEUERQRFBEUERMRFBEUNhQ1FBEUERQ2FDUUNhQ1FBEUERQ2FBETERQRFBEUERQ2EzYUERQ2FAAF'
   - platform: flux
     lights:
@@ -493,7 +493,7 @@ mqtt:
   broker: 192.168.178.20
 
 octoprint:
-  host: orangepizero:5000
+  host: 192.168.178.20:5000
   api_key: !secret octoprint_api_key
   bed: true
   number_of_tools: 1

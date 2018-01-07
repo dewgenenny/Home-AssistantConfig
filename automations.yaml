@@ -330,8 +330,12 @@
     condition: time
     after: '20:00:00'
   action:
+  - service: script.turn_on
+    entity_id: script.projector_off
   - service: scene.turn_on
     entity_id: scene.NightNight
+  - service: scene.turn_on
+    entity_id: scene.night_temps
   - delay: 00:10:00
   - service: light.turn_on
     entity_id:
@@ -339,16 +343,6 @@
     - light.floalt_panel_ws_60x60_2
     data:
       brightness: 10
-  - service: homeassistant.turn_off
-    entity_id: switch.projector_power
-  - service: homeassistant.turn_off
-    entity_id: switch.projector_power
-  - service: homeassistant.turn_off
-    entity_id: switch.projector_power
-  - service: homeassistant.turn_off
-    entity_id: switch.projector_power
-  - service: scene.turn_on
-    entity_id: scene.night_temps
 
 
 

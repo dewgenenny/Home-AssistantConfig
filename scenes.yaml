@@ -96,6 +96,8 @@
         temperature: 18
       climate.play_room_radiator:
         temperature: 16
+      climate.workshop_radiator:
+        temperature: 14
       
   - name: vacation_temps
     entities:
@@ -118,6 +120,8 @@
       climate.peters_room_radiator:
         temperature: 12
       climate.play_room_radiator:
+        temperature: 12
+      climate.workshop_radiator:
         temperature: 12
 
   - name: away_temps
@@ -142,6 +146,8 @@
         temperature: 16
       climate.play_room_radiator:
         temperature: 16
+      climate.workshop_radiator:
+        temperature: 14
       
   - name: here_temps
     entities:
@@ -165,4 +171,6 @@
         temperature: 19
       climate.play_room_radiator:
         temperature: 19
+      climate.workshop_radiator:
+        temperature: 16
       

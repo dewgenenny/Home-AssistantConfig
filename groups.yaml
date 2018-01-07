@@ -28,6 +28,7 @@ all_radiators:
   - climate.olives_room_radiator
   - climate.peters_room_radiator
   - climate.play_room_radiator
+  - climate.workshop_radiator
 
 downstairs_radiators:
   name: Downstairs Radiators
@@ -38,6 +39,7 @@ downstairs_radiators:
   - climate.dining_room_radiator
   - climate.living_room_radiator
   - climate.play_room_radiator
+  - climate.workshop_radiator
 
 upstairs_radiators:
   name: Upstairs Radiators
@@ -48,6 +50,7 @@ upstairs_radiators:
   - climate.office_radiator
   - climate.olives_room_radiator
   - climate.peters_room_radiator
+  - climate.workshop_radiator
 
 
 tracked_people:

@@ -1,0 +1,26 @@
+projector_off:
+  alias: Projector Off
+  sequence:
+    - alias: Projector off first click
+      service: homeassistant.turn_off
+      data:
+        entity_id: switch.projector_power
+    - delay:
+        seconds: 1
+    - alias: Projector off second click
+      service: homeassistant.turn_off
+      data:
+        entity_id: switch.projector_power
+    - delay:
+        seconds: 1
+    - alias: Projector off third click
+      service: homeassistant.turn_off
+      data:
+        entity_id: switch.projector_power
+    - delay:
+        seconds: 1
+    - alias: Projector off fourth click
+      service: homeassistant.turn_off
+      data:
+        entity_id: switch.projector_power
+
