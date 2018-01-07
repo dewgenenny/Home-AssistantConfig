@@ -51,6 +51,8 @@ shell_command:
 
 alexa:
 
+google_fit:
+
 intent_script: !include alexa_intent_scripts.yaml
 
 map:

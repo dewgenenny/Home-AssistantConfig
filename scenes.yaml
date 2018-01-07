@@ -97,6 +97,29 @@
       climate.play_room_radiator:
         temperature: 16
       
+  - name: vacation_temps
+    entities:
+      climate.bathroom_radiator:
+        temperature: 12
+      climate.conservatory_radiator:
+        temperature: 12
+      climate.dining_room_radiator:
+        temperature: 12
+      climate.ellies_room_radiator:
+        temperature: 12
+      climate.living_room_radiator:
+        temperature: 12
+      climate.master_bedroom_radiator:
+        temperature: 12
+      climate.office_radiator:
+        temperature: 12
+      climate.olives_room_radiator:
+        temperature: 12
+      climate.peters_room_radiator:
+        temperature: 12
+      climate.play_room_radiator:
+        temperature: 12
+
   - name: away_temps
     entities:
       climate.bathroom_radiator:
