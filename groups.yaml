@@ -20,9 +20,9 @@ all_radiators:
   entities:
   - climate.bathroom_radiator
   - climate.conservatory_radiator
-  - climate.dining_room_radiator
   - climate.ellies_room_radiator
   - climate.living_room_radiator
+  - climate.living_room_radiator2
   - climate.master_bedroom_radiator
   - climate.office_radiator
   - climate.olives_room_radiator
@@ -36,8 +36,8 @@ downstairs_radiators:
   entities: 
   - climate.bathroom_radiator
   - climate.conservatory_radiator
-  - climate.dining_room_radiator
   - climate.living_room_radiator
+  - climate.living_room_radiator2
   - climate.play_room_radiator
   - climate.workshop_radiator
 
@@ -50,7 +50,6 @@ upstairs_radiators:
   - climate.office_radiator
   - climate.olives_room_radiator
   - climate.peters_room_radiator
-  - climate.workshop_radiator
 
 
 tracked_people:
@@ -59,4 +58,3 @@ tracked_people:
   entities:
   - device_tracker.toms_phone
   - device_tracker.janes_phone
-

@@ -293,9 +293,14 @@ sensor:
       - Job Percentage
 
   - platform: mqtt
-    state_topic: "/ESP_Easy/kwh/Count"
+    state_topic: "/ElectricCounter/kwh/Count"
     name: "Power usage"
     unit_of_measurement: "wH"
+
+  - platform: mqtt
+    state_topic: "/Dust Sensor/Dust/Dust"
+    name: "Air Quality"
+    unit_of_measurement: "mg/L"
 
   - platform: mqtt
     state_topic: "/home/neato/battery"
@@ -409,7 +414,6 @@ weather:
     api_key: !secret owm_api_key
 
 media_player:
-  - platform: plex
   - platform: spotify
     client_id: !secret spotify_client_id
     client_secret: !secret spotify_client_secret
