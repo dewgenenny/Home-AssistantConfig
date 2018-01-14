@@ -128,6 +128,14 @@ automation: !include automations.yaml
 emulated_hue:
 
 input_boolean:
+  alarmweekday:
+    name: Days of the week
+    initial: on
+    icon: mdi:calendar
+  alarmweekon:
+    name: Active
+    initial: on
+
   stuart_run:
     name: Track whether Stuart has already run today
     initial: off
@@ -167,6 +175,20 @@ plant:
 
 
 switch:
+  - platform: command_line
+    switches:
+      carport_camera:
+        command_on: "/usr/bin/curl -X GET http://192.168.178.20:10090/http_switcher_on?module=HttpSwitcher.16"
+        command_off: "/usr/bin/curl -X GET http://192.168.178.20:10090/http_switcher_off?module=HttpSwitcher.16"
+        friendly_name: "Carport motion detector"
+      frontdoor_camera:
+        command_on: "/usr/bin/curl -X GET http://192.168.178.20:10090/http_switcher_on?module=HttpSwitcher.33"
+        command_off: "/usr/bin/curl -X GET http://192.168.178.20:10090/http_switcher_off?module=HttpSwitcher.33"
+        friendly_name: "Frontdoor motion detector"
+      garden_camera:
+        command_on: "/usr/bin/curl -X GET http://192.168.178.20:10090/http_switcher_on?module=HttpSwitcher.4"
+        command_off: "/usr/bin/curl -X GET http://192.168.178.20:10090/http_switcher_off?module=HttpSwitcher.4"
+        friendly_name: "Garden motion detector"
   - platform: sonoff
     switches:
       garden_light:
@@ -253,6 +275,12 @@ switch:
 sensor:
   - platform: pi_hole
     host: 192.168.178.20
+  - platform: template
+    sensors:
+      alarm_time:
+        friendly_name: 'Time'
+        value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarmhour") | int, states("input_number.alarmminutes") | int) }}'
+
   
   - platform: google_travel_time
     api_key: !secret google_travel_time_api_key
@@ -423,9 +451,9 @@ media_player:
     password: !secret kodi_password
 
 device_tracker:
-  - platform: fritz
-    track_new_devices: false
-    host: 192.168.178.1
+#  - platform: fritz
+#    track_new_devices: false
+#    host: 192.168.178.1
   - platform: gpslogger
 
 zone:
@@ -529,4 +557,20 @@ proximity:
 
 scene: !include scenes.yaml
 
+
+input_number:
+  alarmhour:
+    name: Hour
+    icon: mdi:timer
+    initial: 6
+    min: 0
+    max: 23
+    step: 1
+  alarmminutes:
+    name: Minutes
+    icon: mdi:timer
+    initial: 30
+    min: 0
+    max: 59
+    step: 5
 

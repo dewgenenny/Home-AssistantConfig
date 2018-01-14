@@ -58,3 +58,11 @@ tracked_people:
   entities:
   - device_tracker.toms_phone
   - device_tracker.janes_phone
+alarmclock:
+    name: Wake Me Up
+    entities: 
+      - sensor.alarm_time
+      - input_slider.alarmhour
+      - input_slider.alarmminutes
+      - input_boolean.alarmweekday
+      - input_boolean.alarmweekon

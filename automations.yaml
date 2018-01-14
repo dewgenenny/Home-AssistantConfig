@@ -47,6 +47,15 @@
   - service: shell_command.sleep_peter
   - service: homeassistant.turn_off
     entity_id: switch.conservatory_light 
+  - service: homeassistant.turn_on #start motion alerting for cameras
+    entity_id: switch.carport_camera
+  - service: homeassistant.turn_on #start motion alerting for cameras
+    entity_id: switch.frontdoor_camera
+  - service: homeassistant.turn_on #start motion alerting for cameras
+    entity_id: switch.garden_camera
+  - service: notify.html5push
+    data:
+      message: "Arming cameras"
 
 
 
@@ -140,6 +149,22 @@
     entity_id: scene.CosyUp
 
 
+- id: turn_off_motion_alarming_when_home
+  alias: Turn off motion alarming when we're home
+  trigger:
+    platform: state
+    entity_id: group.tracked_people
+    to: home
+  action:
+  - service: homeassistant.turn_off
+    entity_id: switch.carport_camera
+  - service: homeassistant.turn_off
+    entity_id: switch.frontdoor_camera
+  - service: homeassistant.turn_off
+    entity_id: switch.garden_camera
+  - service: notify.html5push
+    data:
+      message: "Disarming cameras"
 
 
 
@@ -148,6 +173,120 @@
 
 
 
+- id: nicewakeup
+  alias: "Wake me up with bedroom light transition for weekdays"
+  trigger:
+    - platform: time
+      minutes: '/1'
+      seconds: 0
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarmweekon
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.alarmweekday
+      state: 'on'
+    - condition: time
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+    - condition: template
+      value_template: '{{ now().strftime("%H:%M") == states.sensor.alarm_time.state }}'
+  action:
+    - service: light.turn_on
+      entity_id: light.bedroom_lamp
+      data:
+        brightness: 1
+    - service: light.turn_on
+      entity_id: light.bedroom_lamp
+      data:
+        transition: 1800
+        brightness: 255
+    - delay: 00:30:00
+    - service: media_player.shuffle_set
+      data:
+        shuffle: true
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.spotify
+        source: Bedroom
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.spotify
+        volume_level: 0.1
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.spotify
+        media_content_type: playlist
+        media_content_id: spotify:user:dewgenenny:playlist:3svjBTYu3sETWQuKRudkCk
+    - service: light.turn_on
+      entity_id: light.bedroom
+      data:
+        brightness: 1
+    - service: light.turn_on
+      entity_id: light.bedroom
+      data:
+        transition: 300
+        brightness: 255
+
+- id: niceweekendwakeup
+  alias: "Wake me up with bedroom light transition for weekend days"
+  trigger:
+    - platform: time
+      minutes: '/1'
+      seconds: 0
+  condition:
+    - condition: state
+      entity_id: input_boolean.alarmweekon
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.alarmweekday
+      state: 'off'
+    - condition: time
+      weekday:
+        - sat
+        - sun
+    - condition: template
+      value_template: '{{ now().strftime("%H:%M") == states.sensor.alarm_time.state }}'
+  action:
+    - service: light.turn_on
+      entity_id: light.bedroom_lamp
+      data:
+        brightness: 1
+    - service: light.turn_on
+      entity_id: light.bedroom_lamp
+      data:
+        transition: 1800
+        brightness: 255
+    - delay: 00:30:00
+    - service: media_player.shuffle_set
+      data:
+        shuffle: true
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.spotify
+        source: Bedroom
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.spotify
+        volume_level: 0.1
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.spotify
+        media_content_type: playlist
+        media_content_id: spotify:user:dewgenenny:playlist:3svjBTYu3sETWQuKRudkCk
+    - service: light.turn_on
+      entity_id: light.bedroom
+      data:
+        brightness: 1
+    - service: light.turn_on
+      entity_id: light.bedroom
+      data:
+        transition: 300
+        brightness: 255
 
 
 
@@ -301,6 +440,15 @@
   action:
   - service: scene.turn_on
     entity_id: scene.Livingroom_normal
+  - service: homeassistant.turn_off # turn off motion alerting for cameras
+    entity_id: switch.carport_camera
+  - service: homeassistant.turn_off # turn off motion alerting for cameras
+    entity_id: switch.frontdoor_camera
+  - service: homeassistant.turn_off # turn off motion alerting for cameras
+    entity_id: switch.garden_camera
+  - service: notify.html5push
+    data:
+      message: "Disarming cameras"
 
 
 
@@ -343,6 +491,15 @@
     - light.floalt_panel_ws_60x60_2
     data:
       brightness: 10
+  - service: homeassistant.turn_on #start motion alerting for cameras
+    entity_id: switch.carport_camera
+  - service: homeassistant.turn_on #start motion alerting for cameras
+    entity_id: switch.frontdoor_camera
+  - service: homeassistant.turn_on #start motion alerting for cameras
+    entity_id: switch.garden_camera
+  - service: notify.html5push
+    data:
+      message: "Arming cameras"
 
 
 
