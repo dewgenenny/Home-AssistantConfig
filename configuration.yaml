@@ -129,7 +129,7 @@ emulated_hue:
 
 input_boolean:
   alarmweekday:
-    name: Days of the week
+    name: Weekdays only
     initial: on
     icon: mdi:calendar
   alarmweekon:
@@ -562,14 +562,14 @@ input_number:
   alarmhour:
     name: Hour
     icon: mdi:timer
-    initial: 6
+    initial: 5
     min: 0
     max: 23
     step: 1
   alarmminutes:
     name: Minutes
     icon: mdi:timer
-    initial: 30
+    initial: 15
     min: 0
     max: 59
     step: 5

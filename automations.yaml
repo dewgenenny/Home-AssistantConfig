@@ -446,9 +446,6 @@
     entity_id: switch.frontdoor_camera
   - service: homeassistant.turn_off # turn off motion alerting for cameras
     entity_id: switch.garden_camera
-  - service: notify.html5push
-    data:
-      message: "Disarming cameras"
 
 
 
