@@ -147,6 +147,8 @@
   action:
   - service: scene.turn_on
     entity_id: scene.CosyUp
+  - service: light.turn_on
+    entity_id: light.frontdoor_light
 
 
 - id: turn_off_motion_alarming_when_home
@@ -289,13 +291,12 @@
         brightness: 255
 
 
-
-- id: Initial
-  alias: Cosy Up
+- id: FrontDoorLightWhenHome
+  alias: Turn on porch light when we're home & its getting dark
   trigger:
     platform: sun
     event: sunset
-    offset: -02:25:00
+    offset: -01:30:00
   condition:
     condition: or
     conditions:
@@ -306,11 +307,46 @@
       entity_id: device_tracker.toms_phone
       state: home
   action:
+  - service: homeassistant.turn_on
+    entity_id: switch.frontdoor_light
+
+- id: CosyUp
+  alias: Living room and porch lights on if it gets darker outside
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.outside_brightness
+    below: 55
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.in_bed
+      state: 'off'
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: device_tracker.janes_phone
+        state: home
+      - condition: state
+        entity_id: device_tracker.toms_phone
+        state: home
+  action:
   - service: scene.turn_on
     entity_id: scene.CosyUp
-  - service: notify.html5push
-    data:
-      message: "Cosying up"
+  - service: light.turn_on
+    entity_id: light.frontdoor_light
+
+- id: CosyUpOff
+  alias: Turn off living room and porch lights if it gets brighter outside
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.outside_brightness
+    above: 45
+  action:
+  - service: scene.turn_on
+    entity_id: scene.CosyUpOff
+  - service: light.turn_off
+    entity_id: light.frontdoor_light
 
 
 - id: NotifyonPrintFinish
@@ -374,7 +410,7 @@
       click_type: double
   action:
   - service: media_player.toggle
-    entity_id: media_player.rxv475_a56d29
+    entity_id: media_player.yamaha_receiver
   - service: homeassistant.toggle
     entity_id: switch.projector_power
 
@@ -422,10 +458,31 @@
     entity_id: group.hallway_lights
 
 
+- id: wsmovementon
+  alias: Turn on workshop light when there is movement
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_158d0001db538a
+    to: 'on'
+  action:
+  - service: light.turn_on
+    entity_id: light.5ccf7fd2e8d2_19216817858
+- id: wsmovementoff
+  alias: Turn off workshop light 1 minutes after last movement
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_sensor_158d0001db538a
+    to: 'off'
+    for:
+      minutes: 1
+  action:
+  - service: light.turn_off
+    entity_id: light.5ccf7fd2e8d2_19216817858
 
 
-- id: turnlightsoninlivingroominthemorning
-  alias: Turn on the living room lights when theres movement in the mornings
+
+- id: firstmovementinmorningsignalswereawake
+  alias: Note when we get out of bed and turn on lights etc accordingly
   trigger:
     platform: state
     entity_id: binary_sensor.motion_sensor_158d000121a54d
@@ -436,10 +493,12 @@
     - condition: time
       after: 05:30:00
     - condition: time
-      before: 07:30:00
+      before: 09:30:00
   action:
   - service: scene.turn_on
-    entity_id: scene.Livingroom_normal
+    entity_id: scene.CosyUp
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.in_bed
   - service: homeassistant.turn_off # turn off motion alerting for cameras
     entity_id: switch.carport_camera
   - service: homeassistant.turn_off # turn off motion alerting for cameras
@@ -468,12 +527,12 @@
   alias: Prepare for Bed
   trigger:
     platform: state
-    entity_id: media_player.rxv475_a56d29
+    entity_id: media_player.yamaha_receiver
     from: 'on'
     to: 'off'
   condition:
     condition: time
-    after: '20:00:00'
+    after: '20:30:00'
   action:
   - service: script.turn_on
     entity_id: script.projector_off
@@ -494,6 +553,8 @@
     entity_id: switch.frontdoor_camera
   - service: homeassistant.turn_on #start motion alerting for cameras
     entity_id: switch.garden_camera
+  - service: homeassistant.turn_on
+    entity_id: input_boolean.in_bed
   - service: notify.html5push
     data:
       message: "Arming cameras"
@@ -622,6 +683,28 @@
 
 
 
+- id: water_dracaena
+  alias: "Remind me to water our Dracaena"
+  trigger:
+    - platform: state
+      entity_id: plant.dracaena_plant
+      to: 'problem'
+  action:
+  - service: notify.html5push
+    data_template:
+      message: "Uh oh Dracaena says {{states.plant.dracaena.attributes.problem}}"
+    
+- id: thanks_dracaena
+  alias: "Thank me for watering Dracaena"
+  trigger:
+    - platform: state
+      entity_id: plant.dracaena_plant
+      from: 'problem'
+  action:
+  - service: notify.html5push
+    data_template:
+      message: "Dracaena says thanks!"
+
 - id: water_yucca
   alias: "Remind me to water our Yucca"
   trigger:
@@ -643,6 +726,7 @@
   - service: notify.html5push
     data_template:
       message: "Yucca says thanks!"
+
 - id: water_bedroom_plant
   alias: "Remind me to water our Bedroom Plant"
   trigger:

@@ -13,10 +13,24 @@ homeassistant:
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: Europe/Berlin
 
+
+
   customize:
+    plant.dracaena_plant:
+      friendly_name: Dracaena 
+    plant.bedroom_plant:
+      friendly_name: Bedroom Old 
+    plant.yucca:
+      friendly_name: Yucca 
+    plant.bedroomnew_plant:
+      friendly_name: Bedroom New 
     input_boolean.stuart_run:
       hidden: true
+    input_boolean.in_bed:
+      hidden: true
     group.all_automations:
+      hidden: true
+    sensor.miscale:
       hidden: true
     sensor.yucca_moisture:
       hidden: true
@@ -28,6 +42,16 @@ homeassistant:
       hidden: true
     sensor.yucca_brightness:
       hidden: true
+    sensor.dracaena_moisture:
+      hidden: true
+    sensor.dracaena_battery:
+      hidden: true
+    sensor.dracaena_temperature:
+      hidden: true
+    sensor.dracaena_conductivity:
+      hidden: true
+    sensor.dracaena_brightness:
+      hidden: true
     sensor.bedroom_plant_moisture:
       hidden: true
     sensor.bedroom_plant_battery:
@@ -38,6 +62,13 @@ homeassistant:
       hidden: true
     sensor.bedroom_plant_brightness:
       hidden: true
+    switch.frontdoor_light:
+      hidden: true
+    switch.garden_lights:
+      hidden: true
+    switch.conservatory_light:
+      hidden: true
+
 notify:
   - name: html5push
     platform: html5
@@ -86,7 +117,7 @@ http:
 updater:
 
 # Discover some devices automatically
-discovery:
+#discovery:
 
 maxcube:
    host: 192.168.178.110
@@ -141,6 +172,11 @@ input_boolean:
     initial: off
     icon: mdi:robot
 
+  in_bed:
+    name: In bed?
+    initial: off
+    icon: mdi:bed
+
   
 xiaomi_aqara:
   gateways:
@@ -172,6 +208,31 @@ plant:
     min_battery: 17
     min_conductivity: 500
     min_temperature: 15
+  dracaena_plant:
+    sensors:
+      moisture: sensor.dracaena_moisture
+      battery: sensor.dracaena_battery
+      temperature: sensor.dracaena_temperature
+      conductivity: sensor.dracaena_conductivity
+      brightness: sensor.dracaena_brightness
+    min_moisture: 20
+    max_moisture: 60
+    min_battery: 17
+    min_conductivity: 500
+    min_temperature: 15
+  bedroomnew_plant:
+    sensors:
+      moisture: sensor.bedroomnew_moisture
+      battery: sensor.bedroomnew_battery
+      temperature: sensor.bedroomnew_temperature
+      conductivity: sensor.bedroomnew_conductivity
+      brightness: sensor.bedroomnew_brightness
+    min_moisture: 20
+    max_moisture: 60
+    min_battery: 17
+    min_conductivity: 500
+    min_temperature: 15
+
 
 
 switch:
@@ -191,12 +252,15 @@ switch:
         friendly_name: "Garden motion detector"
   - platform: sonoff
     switches:
-      garden_light:
+      garden_lights:
         host: 192.168.178.103
-        name: 'Garden Light'
+        name: 'Garden Lights'
       conservatory_light:
         host: 192.168.178.112
         name: 'Conservatory Light'
+      frontdoor_light:
+        host: 192.168.178.120
+        name: 'Frontdoor Light'
   - platform: broadlink
     host: 192.168.178.106
     mac: '34:EA:34:8E:E1:A4'
@@ -225,54 +289,54 @@ switch:
     state_topic: "/home/neato/status"
     payload_on: "Clean House"
     payload_off: "Clean Stop"
-#  - platform: pilight
-#    switches:
-#      Bench Light:
-#        on_code:
-#          protocol: elro_400_switch
-#          systemcode: 0
-#          unitcode: 29
-#          'on': 1
-#        off_code:
-#          protocol: elro_400_switch
-#          systemcode: 0
-#          unitcode: 29
-#          'off': 1
-#        on_code_receive:
-#          protocol: elro_400_switch
-#          systemcode: 0
-#          unitcode: 29
-#          state: 'on'
-#        off_code_receive:
-#          protocol: elro_400_switch
-#          systemcode: 0
-#          unitcode: 29
-#          state: 'off'
-#      3D Printer:
-#        on_code:
-#          protocol: elro_400_switch
-#          systemcode: 0
-#          unitcode: 27
-#          'on': 1
-#        off_code:
-#          protocol: elro_400_switch
-#          systemcode: 0
-#          unitcode: 27
-#          'off': 1
-#      Soldering Station:
-#        on_code:
-#          protocol: elro_400_switch
-#          systemcode: 0
-#          unitcode: 15
-#          'on': 1
-#        off_code:
-#          protocol: elro_400_switch
-#          systemcode: 0
-#          unitcode: 15
-#          'off': 1
+#  - platform: mqtt
+#    name: "Garden Lights"
+#    state_topic: "/GardenLight/relay/Switch"
+#    command_topic: "/GardenLight/gpio/12"
+#    payload_on: "1"
+#    payload_off: "0"
+#    optimistic: true
+#    qos: 0
+#  - platform: mqtt
+#    name: "Frontdoor Light"
+#    state_topic: "/FrontDoor/relay/Switch"
+#    command_topic: "/FrontDoor/gpio/12"
+#    payload_on: "1"
+#    payload_off: "0"
+#    optimistic: true
+#    qos: 0
   
   
 sensor:
+  - platform: mqtt
+    name: "miscale"
+    state_topic: "miscale/weight/kg"
+    value_template: "{{ value }}"
+    unit_of_measurement: "kg"
+  - platform: mqtt
+    name: "Boiler Output"
+    state_topic: "/Boiler/out/Temperature"
+    unit_of_measurement: "C"
+  - platform: mqtt
+    name: "Boiler Return"
+    state_topic: "/Boiler/in/Temperature"
+    unit_of_measurement: "C"
+
+#  - platform: rest
+#    resource: http://192.168.178.20:18003/location?group=narrownewt&user=tom
+#    value_template: '{{ value_json.users.tom[0].location }}'
+#    method: GET
+#    name: Wheres Tom 
+#    scan_interval: 1
+  - platform: nut
+    name: UPS
+    host: 192.168.178.20
+    port: 3493
+    resources:
+      - ups.load
+      - ups.realpower.nominal
+      - input.voltage
+      - battery.runtime
   - platform: pi_hole
     host: 192.168.178.20
   - platform: template
@@ -386,6 +450,58 @@ sensor:
     hidden: true
 
   - platform: mqtt
+    name: bedroomnew_moisture
+    state_topic: kleikamp12/plants/BedroomNew/
+    value_template: '{{ value_json.moisture }}'
+    hidden: true
+  - platform: mqtt
+    name: bedroomnew_battery
+    state_topic: kleikamp12/plants/BedroomNew/
+    value_template: '{{ value_json.battery }}'
+    hidden: true
+  - platform: mqtt
+    name: bedroomnew_temperature
+    state_topic: kleikamp12/plants/BedroomNew/
+    value_template: '{{ value_json.temperature }}'
+    hidden: true
+  - platform: mqtt
+    name: bedroomnew_conductivity
+    state_topic: kleikamp12/plants/BedroomNew/
+    value_template: '{{ value_json.conductivity }}'
+    hidden: true
+  - platform: mqtt
+    name: bedroomnew_brightness
+    state_topic: kleikamp12/plants/BedroomNew/
+    value_template: '{{ value_json.brightness }}'
+    hidden: true
+
+  - platform: mqtt
+    name: dracaena_moisture
+    state_topic: kleikamp12/plants/Dracaena/
+    value_template: '{{ value_json.moisture }}'
+    hidden: true
+  - platform: mqtt
+    name: dracaena_battery
+    state_topic: kleikamp12/plants/Dracaena/
+    value_template: '{{ value_json.battery }}'
+    hidden: true
+  - platform: mqtt
+    name: dracaena_temperature
+    state_topic: kleikamp12/plants/Dracaena/
+    value_template: '{{ value_json.temperature }}'
+    hidden: true
+  - platform: mqtt
+    name: dracaena_conductivity
+    state_topic: kleikamp12/plants/Dracaena/
+    value_template: '{{ value_json.conductivity }}'
+    hidden: true
+  - platform: mqtt
+    name: dracaena_brightness
+    state_topic: kleikamp12/plants/Dracaena/
+    value_template: '{{ value_json.brightness }}'
+    hidden: true
+
+  - platform: mqtt
     name: bedroom_plant_moisture
     state_topic: kleikamp12/plants/bedroom_plant/
     value_template: '{{ value_json.moisture }}'
@@ -442,6 +558,8 @@ weather:
     api_key: !secret owm_api_key
 
 media_player:
+  - platform: cast
+    host: 192.168.178.21
   - platform: spotify
     client_id: !secret spotify_client_id
     client_secret: !secret spotify_client_secret
@@ -449,11 +567,32 @@ media_player:
     host: 192.168.178.234
     username: !secret kodi_username
     password: !secret kodi_password
+  - platform: yamaha
+    host: 192.168.178.32
+    source_ignore:
+     - "AV1"
+     - "AV2"
+     - "AV3"
+     - "AV4"
+     - "AV5"
+     - "AV6"
+     - "HDMI2"
+     - "HDMI4"
+     - "NET RADIO"
+     - "AUDIO"
+     - "SERVER"
+     - "TUNER"
+     - "USB"
+     - "V-AUX"
+     - "iPod (USB)"
+     - "AirPlay"
+    source_names:
+      HDMI1: "Android TV"
+      HDMI3: "PSTV"
+      HDMI5: "ChromeCast"
+
 
 device_tracker:
-#  - platform: fritz
-#    track_new_devices: false
-#    host: 192.168.178.1
   - platform: gpslogger
 
 zone:
@@ -494,6 +633,9 @@ camera:
    mjpeg_url: http://192.168.178.20:10090/video13.mjpg?user=&fps=10
    still_image_url: http://192.168.178.20:10090/image13.jpg
    name: Car_Port
+# - platform: xeoma
+#   host: http://192.168.178.20:10090
+
 
 # - platform: ffmpeg
 #   name: Garden
@@ -518,8 +660,70 @@ ffmpeg:
 #      mom: /config/haarcascade_fullbody.xml  
 
 light:
+  - platform: mqtt_json
+    name: "Bedside Lamp"
+    state_topic: "/home/bedside_lamp"
+    command_topic: "/home/bedside_lamp/set"
+    effect: true
+    effect_list:
+      - bpm
+      - candy cane  
+      - confetti  
+      - cyclon rainbow  
+      - dots  
+      - fire  
+      - glitter  
+      - juggle  
+      - lightning
+      - noise  
+      - police all  
+      - police one  
+      - rainbow  
+      - rainbow with glitter  
+      - ripple  
+      - sinelon  
+      - solid  
+      - twinkle  
+    brightness: true
+    flash: true
+    rgb: true
+    optimistic: false
+    qos: 0
   - platform: flux_led
     automatic_add: True
+  - platform: template
+    lights:
+      garden_lights:
+        friendly_name: "Garden Lights"
+        turn_on:
+          service: homeassistant.turn_on
+          data:
+            entity_id: switch.garden_lights
+        turn_off:
+          service: homeassistant.turn_off
+          data:
+            entity_id: switch.garden_lights
+      frontdoor_light:
+        friendly_name: "Frontdoor Light"
+        turn_on:
+          service: homeassistant.turn_on
+          data:
+            entity_id: switch.frontdoor_light
+        turn_off:
+          service: homeassistant.turn_off
+          data:
+            entity_id: switch.frontdoor_light
+      conservatory_light:
+        friendly_name: "Conservatory Light"
+        turn_on:
+          service: homeassistant.turn_on
+          data:
+            entity_id: switch.conservatory_light
+        turn_off:
+          service: homeassistant.turn_off
+          data:
+            entity_id: switch.conservatory_light
+
 
 mqtt:
   broker: 192.168.178.20
@@ -550,8 +754,8 @@ proximity:
     tolerance: 50
     unit_of_measurement: km
 
-#tradfri:
-#  host: 192.168.178.83
+tradfri:
+  host: 192.168.178.83
 #  api_key: GsNjIyPyi4lLL8n0
 
 
@@ -569,7 +773,7 @@ input_number:
   alarmminutes:
     name: Minutes
     icon: mdi:timer
-    initial: 15
+    initial: 40
     min: 0
     max: 59
     step: 5

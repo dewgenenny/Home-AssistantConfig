@@ -1,7 +1,7 @@
 
   - name: CosyUp
     entities:
-      switch.conservatory_light:
+      light.conservatory_light:
         state: on
       light.tradfri_bulb_e27_opal_1000lm:
         state: on
@@ -24,9 +24,22 @@
         brightness: 169
         color_temp: 454
 
+  - name: CosyUpOff
+    entities:
+      light.conservatory_light:
+        state: off
+      light.tradfri_bulb_e27_opal_1000lm:
+        state: off
+      light.tradfri_bulb_e27_opal_1000lm_2:
+        state: off
+      light.tradfri_bulb_e27_opal_1000lm_3:
+        state: off
+
   - name: NightNight
     entities:
-      switch.conservatory_light:
+      light.conservatory_light:
+        state: off
+      light.frontdoor_light:
         state: off
       light.tradfri_bulb_e27_opal_1000lm:
         state: off
@@ -94,10 +107,10 @@
         temperature: 18
       climate.peters_room_radiator:
         temperature: 18
-      climate.play_room_radiator:
-        temperature: 16
+      climate.playroom_radiator:
+        temperature: 17
       climate.workshop_radiator:
-        temperature: 14
+        temperature: 16
       
   - name: vacation_temps
     entities:
@@ -119,7 +132,7 @@
         temperature: 12
       climate.peters_room_radiator:
         temperature: 12
-      climate.play_room_radiator:
+      climate.playroom_radiator:
         temperature: 12
       climate.workshop_radiator:
         temperature: 12
@@ -144,10 +157,10 @@
         temperature: 18
       climate.peters_room_radiator:
         temperature: 16
-      climate.play_room_radiator:
+      climate.playroom_radiator:
         temperature: 16
       climate.workshop_radiator:
-        temperature: 14
+        temperature: 16
       
   - name: here_temps
     entities:
@@ -169,7 +182,7 @@
         temperature: 20
       climate.peters_room_radiator:
         temperature: 19
-      climate.play_room_radiator:
+      climate.playroom_radiator:
         temperature: 19
       climate.workshop_radiator:
         temperature: 16

@@ -5,7 +5,7 @@ living_room:
   - light.tradfri_bulb_e27_opal_1000lm
   - light.tradfri_bulb_e27_opal_1000lm_2
   - light.tradfri_bulb_e27_opal_1000lm_3
-  - switch.conservatory_light
+  - light.conservatory_light
 
 hallway_lights:
   name: Hallway
@@ -27,7 +27,7 @@ all_radiators:
   - climate.office_radiator
   - climate.olives_room_radiator
   - climate.peters_room_radiator
-  - climate.play_room_radiator
+  - climate.playroom_radiator
   - climate.workshop_radiator
 
 downstairs_radiators:
@@ -38,7 +38,7 @@ downstairs_radiators:
   - climate.conservatory_radiator
   - climate.living_room_radiator
   - climate.living_room_radiator2
-  - climate.play_room_radiator
+  - climate.playroom_radiator
   - climate.workshop_radiator
 
 upstairs_radiators:
