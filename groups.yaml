@@ -18,38 +18,38 @@ all_radiators:
   name: All Radiators
   view: true
   entities:
-  - climate.bathroom_radiator
-  - climate.conservatory_radiator
-  - climate.ellies_room_radiator
-  - climate.living_room_radiator
-  - climate.living_room_radiator2
-  - climate.master_bedroom_radiator
-  - climate.office_radiator
-  - climate.olives_room_radiator
-  - climate.peters_room_radiator
-  - climate.playroom_radiator
-  - climate.workshop_radiator
+  - climate.bathroom
+  - climate.conservatory
+  - climate.ellies_room
+  - climate.living_room
+  - climate.dining_room
+  - climate.master_bedroom
+  - climate.office
+  - climate.olives_room
+  - climate.peters_room
+  - climate.play_room
+  - climate.workshop
 
 downstairs_radiators:
   name: Downstairs Radiators
   view: false
   entities: 
-  - climate.bathroom_radiator
-  - climate.conservatory_radiator
-  - climate.living_room_radiator
-  - climate.living_room_radiator2
-  - climate.playroom_radiator
-  - climate.workshop_radiator
+  - climate.bathroom
+  - climate.conservatory
+  - climate.living_room
+  - climate.dining_room
+  - climate.playroom
+  - climate.workshop
 
 upstairs_radiators:
   name: Upstairs Radiators
   view: false
   entities:
-  - climate.ellies_room_radiator
-  - climate.master_bedroom_radiator
-  - climate.office_radiator
-  - climate.olives_room_radiator
-  - climate.peters_room_radiator
+  - climate.ellies_room
+  - climate.master_bedroom
+  - climate.office
+  - climate.olives_room
+  - climate.peters_room
 
 
 tracked_people:

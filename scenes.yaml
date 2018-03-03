@@ -89,101 +89,101 @@
 
   - name: night_temps
     entities:
-      climate.bathroom_radiator:
+      climate.bathroom:
         temperature: 18
-      climate.conservatory_radiator:
+      climate.conservatory:
         temperature: 16
-      climate.dining_room_radiator:
+      climate.dining_room:
         temperature: 16
-      climate.ellies_room_radiator:
+      climate.ellies_room:
         temperature: 18
-      climate.living_room_radiator:
+      climate.living_room:
         temperature: 16
-      climate.master_bedroom_radiator:
+      climate.master_bedroom:
         temperature: 18
-      climate.office_radiator:
+      climate.office:
         temperature: 16
-      climate.olives_room_radiator:
+      climate.olives_room:
         temperature: 18
-      climate.peters_room_radiator:
+      climate.peters_room:
         temperature: 18
-      climate.playroom_radiator:
+      climate.play_room:
         temperature: 17
-      climate.workshop_radiator:
+      climate.workshop:
         temperature: 16
       
   - name: vacation_temps
     entities:
-      climate.bathroom_radiator:
+      climate.bathroom:
         temperature: 12
-      climate.conservatory_radiator:
+      climate.conservatory:
         temperature: 12
-      climate.dining_room_radiator:
+      climate.dining_room:
         temperature: 12
-      climate.ellies_room_radiator:
+      climate.ellies_room:
         temperature: 12
-      climate.living_room_radiator:
+      climate.living_room:
         temperature: 12
-      climate.master_bedroom_radiator:
+      climate.master_bedroom:
         temperature: 12
-      climate.office_radiator:
+      climate.office:
         temperature: 12
-      climate.olives_room_radiator:
+      climate.olives_room:
         temperature: 12
-      climate.peters_room_radiator:
+      climate.peters_room:
         temperature: 12
-      climate.playroom_radiator:
+      climate.play_room:
         temperature: 12
-      climate.workshop_radiator:
+      climate.workshop:
         temperature: 12
 
   - name: away_temps
     entities:
-      climate.bathroom_radiator:
+      climate.bathroom:
         temperature: 16
-      climate.conservatory_radiator:
+      climate.conservatory:
         temperature: 18
-      climate.dining_room_radiator:
+      climate.dining_room:
         temperature: 18
-      climate.ellies_room_radiator:
+      climate.ellies_room:
         temperature: 18
-      climate.living_room_radiator:
+      climate.living_room:
         temperature: 18
-      climate.master_bedroom_radiator:
+      climate.master_bedroom:
         temperature: 16
-      climate.office_radiator:
+      climate.office:
         temperature: 16
-      climate.olives_room_radiator:
+      climate.olives_room:
         temperature: 18
-      climate.peters_room_radiator:
+      climate.peters_room:
         temperature: 16
-      climate.playroom_radiator:
+      climate.play_room:
         temperature: 16
-      climate.workshop_radiator:
+      climate.workshop:
         temperature: 16
       
   - name: here_temps
     entities:
-      climate.bathroom_radiator:
+      climate.bathroom:
         temperature: 20
-      climate.conservatory_radiator:
+      climate.conservatory:
         temperature: 20
-      climate.dining_room_radiator:
+      climate.dining_room:
         temperature: 20
-      climate.ellies_room_radiator:
+      climate.ellies_room:
         temperature: 20
-      climate.living_room_radiator:
+      climate.living_room:
         temperature: 20
-      climate.master_bedroom_radiator:
+      climate.master_bedroom:
         temperature: 18
-      climate.office_radiator:
+      climate.office:
         temperature: 18
-      climate.olives_room_radiator:
+      climate.olives_room:
         temperature: 20
-      climate.peters_room_radiator:
+      climate.peters_room:
         temperature: 19
-      climate.playroom_radiator:
+      climate.play_room:
         temperature: 19
-      climate.workshop_radiator:
+      climate.workshop:
         temperature: 16
       

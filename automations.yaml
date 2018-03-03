@@ -748,3 +748,40 @@
   - service: notify.html5push
     data_template:
       message: "Bedroom plant says thanks!"
+- id: water_bedroomnew_plant
+  alias: "Remind me to water our new Bedroom Plant"
+  trigger:
+    - platform: state
+      entity_id: plant.bedroomnew_plant
+      to: 'problem'
+  action:
+  - service: notify.html5push
+    data_template:
+      message: "Uh oh new bedroom plant says {{states.plant.bedroomnew_plant.attributes.problem}}"
+    
+- id: thanks_bedroomnew_plant
+  alias: "Thank me for watering new Bedroom Plant"
+  trigger:
+    - platform: state
+      entity_id: plant.bedroomnew_plant
+      from: 'problem'
+  action:
+  - service: notify.html5push
+    data_template:
+      message: "New Bedroom plant says thanks!"
+
+- alias: send_dwd_warning
+  initial_state: True
+  trigger:
+    - platform: state
+      entity_id: sensor.dwd_warn_count
+    - platform: state
+      entity_id: sensor.dwdweatherwarnings_current_warning_level
+  condition:
+    condition: template
+    value_template: '{{ (trigger.to_state.state != trigger.from_state.state) and trigger.to_state.state | int > 0 }}'
+  action:
+  - service: notify.html5push
+    data_template:
+      message: "DWD Weather Warning! Check HA"
+

@@ -94,6 +94,17 @@ config:
 
 script: !include scripts.yaml
 
+homematic:
+  interfaces:
+    wireless:
+      host: 192.168.178.20
+      resolvenames: metadata
+  hosts:
+    CUBe:
+      host: 192.168.178.20
+      username: !secret homegear_username
+      password: !secret homegear_password  
+
 recorder:
   db_url: !secret db_url
 
@@ -119,8 +130,8 @@ updater:
 # Discover some devices automatically
 #discovery:
 
-maxcube:
-   host: 192.168.178.110
+#maxcube:
+#   host: 192.168.178.110
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
@@ -308,6 +319,12 @@ switch:
   
   
 sensor:
+  - platform: dwd_weather_warnings
+    region_name: Kreis Helmstedt
+  - platform: template
+    sensors:
+      dwd_warn_count:
+        value_template: '{{ states.sensor.dwdweatherwarnings_current_warning_level.attributes.warning_count }}'
   - platform: mqtt
     name: "miscale"
     state_topic: "miscale/weight/kg"
@@ -559,7 +576,6 @@ weather:
 
 media_player:
   - platform: cast
-    host: 192.168.178.21
   - platform: spotify
     client_id: !secret spotify_client_id
     client_secret: !secret spotify_client_secret
@@ -618,6 +634,9 @@ zone 3:
 
 
 camera:
+ - platform: generic
+   still_image_url: http://www.dwd.de/DWD/warnungen/warnstatus/SchilderHA.jpg
+   name: DWD Warnungs
  - platform: mjpeg
    mjpeg_url: !secret mjpeg_url
    name: Printer
