@@ -59,24 +59,31 @@
 
 
 
-- id: vacuum
-  alias: Vacuum house when we're out
+- id: vacuum_upstairs
+  alias: Vacuum upstairs when we're out
   trigger:
     platform: state
     entity_id: group.tracked_people
     to: not_home
     for:
       hours: 0
-      minutes: 30
+      minutes: 10
       seconds: 0
   condition:
-  - condition: state
-    entity_id: input_boolean.stuart_run
-    state: 'off'
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.stuart_run
+      state: 'off'
+    - condition: time
+      weekday:
+      - mon
+      - wed
+      - fri 
   action:
   - service: notify.html5push
     data:
-      message: "Vacuuming the house"
+      message: "Stewarts cleaning upstairs"
   - service: homeassistant.turn_on
     entity_id: switch.stuart
   - delay: 00:00:05
@@ -87,6 +94,51 @@
     entity_id: switch.stuart
   - service: homeassistant.turn_on
     entity_id: input_boolean.stuart_run
+
+
+- id: vacuum_downstairs
+  alias: Vacuum downstairs when we're out
+  trigger:
+    platform: state
+    entity_id: group.tracked_people
+    to: not_home
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+  condition:
+  - condition: state
+    entity_id: input_boolean.jackie_run
+    state: 'off'
+  action:
+  - service: notify.html5push
+    data:
+      message: "Jackies cleaning downstairs"
+  - service: vacuum.turn_on
+    entity_id: vacuum.xiaomi_vacuum_cleaner
+  - service: homeassistant.turn_on
+    entity_id: input_boolean.jackie_run
+
+
+
+- id: notifywhenjackiecomplete
+  alias: Notify when Jackie finishes 
+  trigger:
+    platform: state
+    entity_id: vacuum.xiaomi_vacuum_cleaner
+    from: 'on'
+    to: 'off'
+  action:
+  - service: notify.html5push
+    data:
+      message: "Jackies finished cleaning"
+
+
+
+
+
+
+
 
 
 - id: heaters_low
@@ -199,13 +251,15 @@
       value_template: '{{ now().strftime("%H:%M") == states.sensor.alarm_time.state }}'
   action:
     - service: light.turn_on
-      entity_id: light.bedroom_lamp
+      entity_id: light.bedside_lamp
       data:
         brightness: 1
+        kelvin: 5600
     - service: light.turn_on
-      entity_id: light.bedroom_lamp
+      entity_id: light.bedside_lamp
       data:
         transition: 1800
+        kelvin: 5600
         brightness: 255
     - delay: 00:30:00
     - service: media_player.shuffle_set
@@ -255,13 +309,15 @@
       value_template: '{{ now().strftime("%H:%M") == states.sensor.alarm_time.state }}'
   action:
     - service: light.turn_on
-      entity_id: light.bedroom_lamp
+      entity_id: light.bedside_lamp
       data:
         brightness: 1
+        kelvin: 5600
     - service: light.turn_on
-      entity_id: light.bedroom_lamp
+      entity_id: light.bedside_lamp
       data:
         transition: 1800
+        kelvin: 5600
         brightness: 255
     - delay: 00:30:00
     - service: media_player.shuffle_set
@@ -378,8 +434,8 @@
     
 
 
-- id: switchforstuart
-  alias: Switch for Stuart
+- id: longpressvacuum
+  alias: Long press vacuum
   trigger:
     platform: event
     event_type: click
@@ -397,6 +453,8 @@
     entity_id: switch.stuart
   - service: homeassistant.turn_on
     entity_id: input_boolean.stuart_run
+  - service: vacuum.turn_on
+    entity_id: vacuum.xiaomi_vacuum_cleaner
 
 
 
@@ -446,7 +504,7 @@
   - service: light.turn_on
     entity_id: group.hallway_lights
 - id: hallmovementoff
-  alias: Turn off hall light 10 minutes after last movement
+  alias: Turn off hall light 1 minutes after last movement
   trigger:
     platform: state
     entity_id: binary_sensor.motion_sensor_158d000121a54d
@@ -456,6 +514,48 @@
   action:
   - service: light.turn_off
     entity_id: group.hallway_lights
+
+#- id: lardermovementon
+#  alias: Turn on larder light when there is movement
+#  trigger:
+#    platform: state
+#    entity_id: binary_sensor.motion_sensor_158d00016be304
+#    to: 'on'
+#  action:
+#  - service: light.turn_on
+#    entity_id: light.larder_light
+#- id: lardermovementoff
+#  alias: Turn off larder light 1 minutes after last movement
+#  trigger:
+#    platform: state
+#    entity_id: binary_sensor.motion_sensor_158d00016be304
+#    to: 'off'
+#    for:
+#      minutes: 1
+#  action:
+#  - service: light.turn_off
+#    entity_id: light.larder_light
+
+
+- alias: Larder light on/off based on motion
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.motion_sensor_158d00016be304
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.motion_sensor_158d00016be304
+      to: 'off'
+      for:
+        minutes: 0
+        seconds: 10
+  action:
+    service_template: >
+      {% if trigger.to_state.state == "on" %}
+      homeassistant.turn_on
+      {% elif trigger.to_state.state == "off" %}
+      homeassistant.turn_off
+      {% endif %}
+    entity_id: light.larder_light
 
 
 - id: wsmovementon
@@ -519,6 +619,8 @@
   action:
   - service: homeassistant.turn_off
     entity_id: input_boolean.stuart_run
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.jackie_run
   - service: scene.turn_on
     entity_id: scene.here_temps
 

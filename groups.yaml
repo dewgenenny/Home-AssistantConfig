@@ -38,7 +38,7 @@ downstairs_radiators:
   - climate.conservatory
   - climate.living_room
   - climate.dining_room
-  - climate.playroom
+  - climate.play_room
   - climate.workshop
 
 upstairs_radiators:

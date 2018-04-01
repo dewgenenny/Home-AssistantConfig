@@ -24,8 +24,10 @@ homeassistant:
       friendly_name: Yucca 
     plant.bedroomnew_plant:
       friendly_name: Bedroom New 
-    input_boolean.stuart_run:
-      hidden: true
+#    input_boolean.stuart_run:
+#      hidden: true
+#    input_boolean.jackie_run:
+#      hidden: true
     input_boolean.in_bed:
       hidden: true
     group.all_automations:
@@ -93,6 +95,11 @@ frontend:
 config:
 
 script: !include scripts.yaml
+
+vacuum:
+  - platform: xiaomi_miio
+    host: 192.168.178.129
+    token: !secret xiaomi_vacuum_key
 
 homematic:
   interfaces:
@@ -179,7 +186,11 @@ input_boolean:
     initial: on
 
   stuart_run:
-    name: Track whether Stuart has already run today
+    name: Stuart run today?
+    initial: off
+    icon: mdi:robot
+  jackie_run:
+    name: Jackie run today?
     initial: off
     icon: mdi:robot
 
@@ -272,6 +283,9 @@ switch:
       frontdoor_light:
         host: 192.168.178.120
         name: 'Frontdoor Light'
+      larder_light:
+        host: 192.168.178.128
+        name: 'Larder Light'
   - platform: broadlink
     host: 192.168.178.106
     mac: '34:EA:34:8E:E1:A4'
@@ -576,6 +590,9 @@ weather:
 
 media_player:
   - platform: cast
+    host: 192.168.178.21
+    data:
+      ignore_cec: true
   - platform: spotify
     client_id: !secret spotify_client_id
     client_secret: !secret spotify_client_secret
@@ -742,13 +759,23 @@ light:
           service: homeassistant.turn_off
           data:
             entity_id: switch.conservatory_light
+      larder_light:
+        friendly_name: "Larder Light"
+        turn_on:
+          service: homeassistant.turn_on
+          data:
+            entity_id: switch.larder_light
+        turn_off:
+          service: homeassistant.turn_off
+          data:
+            entity_id: switch.larder_light
 
 
 mqtt:
   broker: 192.168.178.20
 
 octoprint:
-  host: 192.168.178.20:5000
+  host: 192.168.178.104:5000
   api_key: !secret octoprint_api_key
   bed: true
   number_of_tools: 1

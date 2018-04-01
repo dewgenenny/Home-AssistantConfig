@@ -1,21 +1,40 @@
 binary_sensor.door_window_sensor_158d0001219d46:
+  name:
   platform: xiaomi_aqara
   unique_id: status158d0001219d46
 binary_sensor.motion_sensor_158d0001db3583:
+  name:
   platform: xiaomi_aqara
   unique_id: status158d0001db3583
 binary_sensor.motion_sensor_158d0001db538a:
+  name:
   platform: xiaomi_aqara
   unique_id: status158d0001db538a
 binary_sensor.switch_158d0001232e3d:
+  name:
   platform: xiaomi_aqara
   unique_id: status158d0001232e3d
 sensor.illumination_34ce008380ea:
+  name:
   platform: xiaomi_aqara
   unique_id: illumination34ce008380ea
 light.gateway_light_34ce008380ea:
+  name:
   platform: xiaomi_aqara
   unique_id: rgb34ce008380ea
 switch.plug_158d00017023d8:
+  name:
   platform: xiaomi_aqara
   unique_id: status158d00017023d8
+binary_sensor.motion_sensor_158d000121a54d:
+  name:
+  platform: xiaomi_aqara
+  unique_id: status158d000121a54d
+binary_sensor.motion_sensor_158d00016be304:
+  name:
+  platform: xiaomi_aqara
+  unique_id: status158d00016be304
+media_player.projector:
+  name:
+  platform: cast
+  unique_id: 30b95b65-8ca9-5364-d6bd-f9139a833cb3

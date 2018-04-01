@@ -96,7 +96,7 @@
       climate.dining_room:
         temperature: 16
       climate.ellies_room:
-        temperature: 18
+        temperature: 16
       climate.living_room:
         temperature: 16
       climate.master_bedroom:
@@ -104,9 +104,9 @@
       climate.office:
         temperature: 16
       climate.olives_room:
-        temperature: 18
+        temperature: 17
       climate.peters_room:
-        temperature: 18
+        temperature: 17
       climate.play_room:
         temperature: 17
       climate.workshop:
@@ -146,7 +146,7 @@
       climate.dining_room:
         temperature: 18
       climate.ellies_room:
-        temperature: 18
+        temperature: 16
       climate.living_room:
         temperature: 18
       climate.master_bedroom:
@@ -154,7 +154,7 @@
       climate.office:
         temperature: 16
       climate.olives_room:
-        temperature: 18
+        temperature: 16
       climate.peters_room:
         temperature: 16
       climate.play_room:
@@ -171,7 +171,7 @@
       climate.dining_room:
         temperature: 20
       climate.ellies_room:
-        temperature: 20
+        temperature: 16
       climate.living_room:
         temperature: 20
       climate.master_bedroom:
@@ -179,7 +179,7 @@
       climate.office:
         temperature: 18
       climate.olives_room:
-        temperature: 20
+        temperature: 19
       climate.peters_room:
         temperature: 19
       climate.play_room:
