@@ -77,14 +77,15 @@ notify:
     gcm_api_key: !secret gcm_api_key
     gcm_sender_id: !secret gcm_sender_id
 
+cloud:
 
 shell_command:
   sleep_tom: 'curl -k http://tom-pc:8000/?action=System.Sleep'
   sleep_peter: 'curl -k http://192.168.178.86:8000/?action=System.Sleep'
 
-alexa:
+#alexa:
 
-intent_script: !include alexa_intent_scripts.yaml
+#intent_script: !include alexa_intent_scripts.yaml
 
 map:
 
@@ -135,7 +136,7 @@ http:
 updater:
 
 # Discover some devices automatically
-#discovery:
+discovery:
 
 #maxcube:
 #   host: 192.168.178.110
@@ -174,7 +175,7 @@ google_assistant:
 group: !include groups.yaml
 automation: !include automations.yaml
 
-emulated_hue:
+#emulated_hue:
 
 input_boolean:
   alarmweekday:
@@ -184,6 +185,10 @@ input_boolean:
   alarmweekon:
     name: Active
     initial: on
+  stealth_mode:
+    name: Stealth Mode
+    initial: off
+    icon: mdi:volume-off
 
   stuart_run:
     name: Stuart run today?
@@ -331,6 +336,11 @@ switch:
 #    optimistic: true
 #    qos: 0
   
+fritzbox:
+  devices:
+    - host: 192.168.178.1
+      username: !secret fritzbox_username
+      password: !secret fritzbox_password
   
 sensor:
   - platform: dwd_weather_warnings
@@ -368,8 +378,8 @@ sensor:
       - ups.realpower.nominal
       - input.voltage
       - battery.runtime
-  - platform: pi_hole
-    host: 192.168.178.20
+#  - platform: pi_hole
+#    host: 192.168.178.20
   - platform: template
     sensors:
       alarm_time:
@@ -559,6 +569,7 @@ sensor:
     hidden: true
 
 
+
   - platform: fritzbox_netmonitor
     host: 192.168.178.1
     monitored_conditions:
@@ -585,8 +596,9 @@ sensor:
       - wind_bearing
 
 weather:
-  - platform: openweathermap
-    api_key: !secret owm_api_key
+#  - platform: openweathermap
+  - platform: darksky  
+    api_key: !secret ds_api_key
 
 media_player:
   - platform: cast
@@ -627,6 +639,9 @@ media_player:
 
 device_tracker:
   - platform: gpslogger
+  - platform: google_maps
+    username: !secret google_maps_user
+    password: !secret google_maps_password
 
 zone:
   name: Work
@@ -651,12 +666,17 @@ zone 3:
 
 
 camera:
+ - platform: ffmpeg
+   ffmpeg_bin: /usr/bin/ffmpeg
+   name: 3D Printer
+   input: -rtsp_transport tcp -i rtsp://admin:dg20160404@192.168.178.130:554/onvif1
+   extra_arguments: -pred 1 -q:v 2
  - platform: generic
    still_image_url: http://www.dwd.de/DWD/warnungen/warnstatus/SchilderHA.jpg
    name: DWD Warnungs
- - platform: mjpeg
-   mjpeg_url: !secret mjpeg_url
-   name: Printer
+# - platform: mjpeg
+#   mjpeg_url: !secret mjpeg_url
+#   name: Printer
  - platform: mjpeg
    mjpeg_url: http://192.168.178.20:10090/video7.mjpg?user=&fps=10
    still_image_url: http://192.168.178.20:10090/image7.jpg
@@ -783,6 +803,13 @@ octoprint:
 
 
 binary_sensor:
+
+  - platform: mqtt
+    name: Doorbell
+    state_topic: "/Doorbell/bell/Switch"
+    payload_on: "1"
+    payload_off: "0"
+
   - platform: trend
     sensors:
       haveibeenpwned:

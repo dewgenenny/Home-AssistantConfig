@@ -23,7 +23,7 @@ light.gateway_light_34ce008380ea:
   platform: xiaomi_aqara
   unique_id: rgb34ce008380ea
 switch.plug_158d00017023d8:
-  name:
+  name: 3D Printer
   platform: xiaomi_aqara
   unique_id: status158d00017023d8
 binary_sensor.motion_sensor_158d000121a54d:
@@ -38,3 +38,43 @@ media_player.projector:
   name:
   platform: cast
   unique_id: 30b95b65-8ca9-5364-d6bd-f9139a833cb3
+light.malivinroombuddy:
+  name:
+  platform: tradfri
+  unique_id: group-7e12195204400125-143722
+light.tradfri_group_4:
+  name:
+  platform: tradfri
+  unique_id: group-7e12195204400125-143723
+light.mabedroom:
+  name:
+  platform: tradfri
+  unique_id: group-7e12195204400125-138956
+light.tradfri_bulb_e27_opal_1000lm:
+  name:
+  platform: tradfri
+  unique_id: light-7e12195204400125-65537
+light.floalt_panel_ws_60x60:
+  name:
+  platform: tradfri
+  unique_id: light-7e12195204400125-65541
+light.bedroom:
+  name:
+  platform: tradfri
+  unique_id: light-7e12195204400125-65540
+light.tradfri_bulb_e27_opal_1000lm_2:
+  name:
+  platform: tradfri
+  unique_id: light-7e12195204400125-65538
+light.floalt_panel_ws_60x60_2:
+  name:
+  platform: tradfri
+  unique_id: light-7e12195204400125-65547
+light.tradfri_bulb_e27_opal_1000lm_3:
+  name:
+  platform: tradfri
+  unique_id: light-7e12195204400125-65539
+light.bedroom_lamp:
+  name:
+  platform: tradfri
+  unique_id: light-7e12195204400125-65544

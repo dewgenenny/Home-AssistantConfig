@@ -1,35 +1,27 @@
-# Location based automation
-
-
 - id: heating_up_when_jane_on_way_home
   alias: Heating up when Jane on way home
   trigger:
     platform: zone
     entity_id: device_tracker.janes_phone
     zone: zone.Braunschweig
-    # Event is either enter or leave
-    event: leave  # or "leave"
+    event: leave
   action:
   - service: scene.turn_on
     entity_id: scene.here_temps
-  - service: notify.html5push
-    data:
-      message: "Turned heating up"
-
-- id: message_jane_when_toms_on_way_home
-  alias: Message Jane when Toms on way home
-  trigger:
-    platform: zone
-    entity_id: device_tracker.toms_phone
-    zone: zone.Work
-    # Event is either enter or leave
-    event: leave  # or "leave"
-  action:
-  - service: notify.html5push_jane_phone
-    data:
-      message: "Hurray!!! Tom is on his way home"
-
-
+#  - service: notify.html5push
+#    data:
+#      message: Turned heating up
+#- id: message_jane_when_toms_on_way_home
+#  alias: Message Jane when Toms on way home
+#  trigger:
+#    platform: zone
+#    entity_id: device_tracker.toms_phone
+#    zone: zone.Work
+#    event: leave
+#  action:
+#  - service: notify.html5push_jane_phone
+#    data:
+#      message: Hurray!!! Tom is on his way home
 - id: noonehome
   alias: Turn off lights & PCs when we leave
   trigger:
@@ -46,19 +38,16 @@
   - service: shell_command.sleep_tom
   - service: shell_command.sleep_peter
   - service: homeassistant.turn_off
-    entity_id: switch.conservatory_light 
-  - service: homeassistant.turn_on #start motion alerting for cameras
+    entity_id: switch.conservatory_light
+  - service: homeassistant.turn_on
     entity_id: switch.carport_camera
-  - service: homeassistant.turn_on #start motion alerting for cameras
+  - service: homeassistant.turn_on
     entity_id: switch.frontdoor_camera
-  - service: homeassistant.turn_on #start motion alerting for cameras
+  - service: homeassistant.turn_on
     entity_id: switch.garden_camera
   - service: notify.html5push
     data:
-      message: "Arming cameras"
-
-
-
+      message: Arming cameras
 - id: vacuum_upstairs
   alias: Vacuum upstairs when we're out
   trigger:
@@ -79,11 +68,11 @@
       weekday:
       - mon
       - wed
-      - fri 
+      - fri
   action:
   - service: notify.html5push
     data:
-      message: "Stewarts cleaning upstairs"
+      message: Stewarts cleaning upstairs
   - service: homeassistant.turn_on
     entity_id: switch.stuart
   - delay: 00:00:05
@@ -94,8 +83,6 @@
     entity_id: switch.stuart
   - service: homeassistant.turn_on
     entity_id: input_boolean.stuart_run
-
-
 - id: vacuum_downstairs
   alias: Vacuum downstairs when we're out
   trigger:
@@ -113,16 +100,13 @@
   action:
   - service: notify.html5push
     data:
-      message: "Jackies cleaning downstairs"
+      message: Jackies cleaning downstairs
   - service: vacuum.turn_on
     entity_id: vacuum.xiaomi_vacuum_cleaner
   - service: homeassistant.turn_on
     entity_id: input_boolean.jackie_run
-
-
-
 - id: notifywhenjackiecomplete
-  alias: Notify when Jackie finishes 
+  alias: Notify when Jackie finishes
   trigger:
     platform: state
     entity_id: vacuum.xiaomi_vacuum_cleaner
@@ -131,16 +115,7 @@
   action:
   - service: notify.html5push
     data:
-      message: "Jackies finished cleaning"
-
-
-
-
-
-
-
-
-
+      message: Jackies finished cleaning
 - id: heaters_low
   alias: Reduce heating when we're out
   trigger:
@@ -156,13 +131,12 @@
     entity_id: scene.away_temps
   - service: notify.html5push
     data:
-      message: "Turning down heating, no one home"
+      message: Turning down heating, no one home
       data:
         actions:
         - action: reset
-          icon: "/static/icons/favicon-192x192.png"
+          icon: /static/icons/favicon-192x192.png
           title: Set back to 20
-
 - id: heaters_up_when_arrive_home
   alias: Increase heating when we're back
   trigger:
@@ -173,17 +147,15 @@
     condition: and
     conditions:
     - condition: time
-      after: '05:30:00'
+      after: 05:30:00
     - condition: time
       before: '22:30:00'
   action:
   - service: scene.turn_on
     entity_id: scene.here_temps
-  - service: notify.html5push
-    data:
-      message: "Turning up heating, welcome home!"
-
-
+#  - service: notify.html5push
+#    data:
+#      message: Turning up heating, welcome home!
 - id: lights_on_when_arrive_home
   alias: Turn on lights when we're back
   trigger:
@@ -201,8 +173,6 @@
     entity_id: scene.CosyUp
   - service: light.turn_on
     entity_id: light.frontdoor_light
-
-
 - id: turn_off_motion_alarming_when_home
   alias: Turn off motion alarming when we're home
   trigger:
@@ -216,137 +186,128 @@
     entity_id: switch.frontdoor_camera
   - service: homeassistant.turn_off
     entity_id: switch.garden_camera
-  - service: notify.html5push
-    data:
-      message: "Disarming cameras"
-
-
-
-
-
-
-
-
+#  - service: notify.html5push
+#    data:
+#      message: Disarming cameras
 - id: nicewakeup
-  alias: "Wake me up with bedroom light transition for weekdays"
+  alias: Wake me up with bedroom light transition for weekdays
   trigger:
-    - platform: time
-      minutes: '/1'
-      seconds: 0
+  - platform: time
+    minutes: /1
+    seconds: 0
   condition:
-    - condition: state
-      entity_id: input_boolean.alarmweekon
-      state: 'on'
-    - condition: state
-      entity_id: input_boolean.alarmweekday
-      state: 'on'
-    - condition: time
-      weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
-    - condition: template
-      value_template: '{{ now().strftime("%H:%M") == states.sensor.alarm_time.state }}'
+  - condition: state
+    entity_id: input_boolean.alarmweekon
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.alarmweekday
+    state: 'on'
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  - condition: template
+    value_template: '{{ now().strftime("%H:%M") == states.sensor.alarm_time.state
+      }}'
   action:
-    - service: light.turn_on
-      entity_id: light.bedside_lamp
-      data:
-        brightness: 1
-        kelvin: 5600
-    - service: light.turn_on
-      entity_id: light.bedside_lamp
-      data:
-        transition: 1800
-        kelvin: 5600
-        brightness: 255
-    - delay: 00:30:00
-    - service: media_player.shuffle_set
-      data:
-        shuffle: true
-    - service: media_player.select_source
-      data:
-        entity_id: media_player.spotify
-        source: Bedroom
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.spotify
-        volume_level: 0.1
-    - service: media_player.play_media
-      data:
-        entity_id: media_player.spotify
-        media_content_type: playlist
-        media_content_id: spotify:user:dewgenenny:playlist:3svjBTYu3sETWQuKRudkCk
-    - service: light.turn_on
-      entity_id: light.bedroom
-      data:
-        brightness: 1
-    - service: light.turn_on
-      entity_id: light.bedroom
-      data:
-        transition: 300
-        brightness: 255
-
+  - service: light.turn_on
+    entity_id: light.bedside_lamp
+    data:
+      brightness: 1
+      kelvin: 5600
+  - service: light.turn_on
+    entity_id: light.bedside_lamp
+    data:
+      transition: 1800
+      kelvin: 5600
+      brightness: 255
+  - delay: 00:30:00
+  - service: media_player.shuffle_set
+    data:
+      shuffle: true
+  - service: media_player.select_source
+    data:
+      entity_id: media_player.spotify
+      source: Bedroom
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.spotify
+      volume_level: 0.1
+  - service: media_player.play_media
+    data:
+      entity_id: media_player.spotify
+      media_content_type: playlist
+      media_content_id: spotify:user:dewgenenny:playlist:3svjBTYu3sETWQuKRudkCk
+  - service: light.turn_on
+    entity_id: light.bedroom
+    data:
+      brightness: 1
+  - service: light.turn_on
+    entity_id: light.bedroom
+    data:
+      transition: 300
+      brightness: 255
 - id: niceweekendwakeup
-  alias: "Wake me up with bedroom light transition for weekend days"
+  alias: Wake me up with bedroom light transition for weekend days
   trigger:
-    - platform: time
-      minutes: '/1'
-      seconds: 0
+  - platform: time
+    minutes: /1
+    seconds: 0
   condition:
-    - condition: state
-      entity_id: input_boolean.alarmweekon
-      state: 'on'
-    - condition: state
-      entity_id: input_boolean.alarmweekday
-      state: 'off'
-    - condition: time
-      weekday:
-        - sat
-        - sun
-    - condition: template
-      value_template: '{{ now().strftime("%H:%M") == states.sensor.alarm_time.state }}'
+  - condition: state
+    entity_id: input_boolean.alarmweekon
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.alarmweekday
+    state: 'off'
+  - condition: time
+    weekday:
+    - sat
+    - sun
+  - condition: template
+    value_template: '{{ now().strftime("%H:%M") == states.sensor.alarm_time.state
+      }}'
   action:
-    - service: light.turn_on
-      entity_id: light.bedside_lamp
-      data:
-        brightness: 1
-        kelvin: 5600
-    - service: light.turn_on
-      entity_id: light.bedside_lamp
-      data:
-        transition: 1800
-        kelvin: 5600
-        brightness: 255
-    - delay: 00:30:00
-    - service: media_player.shuffle_set
-      data:
-        shuffle: true
-    - service: media_player.select_source
-      data:
-        entity_id: media_player.spotify
-        source: Bedroom
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.spotify
-        volume_level: 0.1
-    - service: media_player.play_media
-      data:
-        entity_id: media_player.spotify
-        media_content_type: playlist
-        media_content_id: spotify:user:dewgenenny:playlist:3svjBTYu3sETWQuKRudkCk
-    - service: light.turn_on
-      entity_id: light.bedroom
-      data:
-        brightness: 1
-    - service: light.turn_on
-      entity_id: light.bedroom
-      data:
-        transition: 300
-        brightness: 255
-
-
+  - service: light.turn_on
+    entity_id: light.bedside_lamp
+    data:
+      brightness: 1
+      kelvin: 5600
+  - service: light.turn_on
+    entity_id: light.bedside_lamp
+    data:
+      transition: 1800
+      kelvin: 5600
+      brightness: 255
+  - delay: 00:30:00
+  - service: media_player.shuffle_set
+    data:
+      shuffle: true
+  - service: media_player.select_source
+    data:
+      entity_id: media_player.spotify
+      source: Bedroom
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.spotify
+      volume_level: 0.1
+  - service: media_player.play_media
+    data:
+      entity_id: media_player.spotify
+      media_content_type: playlist
+      media_content_id: spotify:user:dewgenenny:playlist:3svjBTYu3sETWQuKRudkCk
+  - service: light.turn_on
+    entity_id: light.bedroom
+    data:
+      brightness: 1
+  - service: light.turn_on
+    entity_id: light.bedroom
+    data:
+      transition: 300
+      brightness: 255
 - id: FrontDoorLightWhenHome
   alias: Turn on porch light when we're home & its getting dark
   trigger:
@@ -365,13 +326,12 @@
   action:
   - service: homeassistant.turn_on
     entity_id: switch.frontdoor_light
-
 - id: CosyUp
   alias: Living room and porch lights on if it gets darker outside
   trigger:
     platform: numeric_state
     entity_id: sensor.outside_brightness
-    below: 55
+    below: 85
   condition:
     condition: and
     conditions:
@@ -391,20 +351,17 @@
     entity_id: scene.CosyUp
   - service: light.turn_on
     entity_id: light.frontdoor_light
-
 - id: CosyUpOff
   alias: Turn off living room and porch lights if it gets brighter outside
   trigger:
     platform: numeric_state
     entity_id: sensor.outside_brightness
-    above: 45
+    above: 85
   action:
   - service: scene.turn_on
     entity_id: scene.CosyUpOff
   - service: light.turn_off
     entity_id: light.frontdoor_light
-
-
 - id: NotifyonPrintFinish
   alias: Notify me when printer is finished
   trigger:
@@ -415,9 +372,7 @@
   action:
   - service: notify.html5push
     data:
-      message: "3D print finished"
-
-
+      message: 3D print finished
 - id: heatingonvianotification
   alias: Turn heating back up via notification
   trigger:
@@ -430,10 +385,7 @@
     entity_id: scene.here_temps
   - service: notify.html5push
     data:
-      message: "Heating set back to 20"
-    
-
-
+      message: Heating set back to 20
 - id: longpressvacuum
   alias: Long press vacuum
   trigger:
@@ -455,9 +407,6 @@
     entity_id: input_boolean.stuart_run
   - service: vacuum.turn_on
     entity_id: vacuum.xiaomi_vacuum_cleaner
-
-
-
 - id: switchampon
   alias: Switch amp on or off
   trigger:
@@ -470,11 +419,7 @@
   - service: media_player.toggle
     entity_id: media_player.yamaha_receiver
   - service: homeassistant.toggle
-    entity_id: switch.projector_power
-
-
-
-
+    entity_id: switch.projector
 - id: AllLtOff
   alias: All Lights Off
   trigger:
@@ -487,13 +432,6 @@
     entity_id: group.all_lights
   - service: homeassistant.turn_off
     entity_id: switch.conservatory_light
-#  - service: climate.set_temperature
-#    data:
-#      entity_id: group.all_radiators
-#      temperature: 18
-
-
-
 - id: hallmovementon
   alias: Turn on hall light when there is movement
   trigger:
@@ -514,50 +452,24 @@
   action:
   - service: light.turn_off
     entity_id: group.hallway_lights
-
-#- id: lardermovementon
-#  alias: Turn on larder light when there is movement
-#  trigger:
-#    platform: state
-#    entity_id: binary_sensor.motion_sensor_158d00016be304
-#    to: 'on'
-#  action:
-#  - service: light.turn_on
-#    entity_id: light.larder_light
-#- id: lardermovementoff
-#  alias: Turn off larder light 1 minutes after last movement
-#  trigger:
-#    platform: state
-#    entity_id: binary_sensor.motion_sensor_158d00016be304
-#    to: 'off'
-#    for:
-#      minutes: 1
-#  action:
-#  - service: light.turn_off
-#    entity_id: light.larder_light
-
-
 - alias: Larder light on/off based on motion
   trigger:
-    - platform: state
-      entity_id: binary_sensor.motion_sensor_158d00016be304
-      to: 'on'
-    - platform: state
-      entity_id: binary_sensor.motion_sensor_158d00016be304
-      to: 'off'
-      for:
-        minutes: 0
-        seconds: 10
+  - platform: state
+    entity_id: binary_sensor.motion_sensor_158d00016be304
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.motion_sensor_158d00016be304
+    to: 'off'
+    for:
+      minutes: 0
+      seconds: 10
   action:
-    service_template: >
-      {% if trigger.to_state.state == "on" %}
-      homeassistant.turn_on
-      {% elif trigger.to_state.state == "off" %}
-      homeassistant.turn_off
-      {% endif %}
+    service_template: '{% if trigger.to_state.state == "on" %} homeassistant.turn_on
+      {% elif trigger.to_state.state == "off" %} homeassistant.turn_off {% endif %}
+
+      '
     entity_id: light.larder_light
-
-
+  id: 77c734df94cf4c58b32175ef1bcde660
 - id: wsmovementon
   alias: Turn on workshop light when there is movement
   trigger:
@@ -578,9 +490,6 @@
   action:
   - service: light.turn_off
     entity_id: light.5ccf7fd2e8d2_19216817858
-
-
-
 - id: firstmovementinmorningsignalswereawake
   alias: Note when we get out of bed and turn on lights etc accordingly
   trigger:
@@ -599,16 +508,12 @@
     entity_id: scene.CosyUp
   - service: homeassistant.turn_off
     entity_id: input_boolean.in_bed
-  - service: homeassistant.turn_off # turn off motion alerting for cameras
+  - service: homeassistant.turn_off
     entity_id: switch.carport_camera
-  - service: homeassistant.turn_off # turn off motion alerting for cameras
+  - service: homeassistant.turn_off
     entity_id: switch.frontdoor_camera
-  - service: homeassistant.turn_off # turn off motion alerting for cameras
+  - service: homeassistant.turn_off
     entity_id: switch.garden_camera
-
-
-
-
 - id: Morning
   alias: Start the Day
   trigger:
@@ -623,8 +528,6 @@
     entity_id: input_boolean.jackie_run
   - service: scene.turn_on
     entity_id: scene.here_temps
-
-
 - id: PrepareForBed
   alias: Prepare for Bed
   trigger:
@@ -649,20 +552,17 @@
     - light.floalt_panel_ws_60x60_2
     data:
       brightness: 10
-  - service: homeassistant.turn_on #start motion alerting for cameras
+  - service: homeassistant.turn_on
     entity_id: switch.carport_camera
-  - service: homeassistant.turn_on #start motion alerting for cameras
+  - service: homeassistant.turn_on
     entity_id: switch.frontdoor_camera
-  - service: homeassistant.turn_on #start motion alerting for cameras
+  - service: homeassistant.turn_on
     entity_id: switch.garden_camera
   - service: homeassistant.turn_on
     entity_id: input_boolean.in_bed
   - service: notify.html5push
     data:
-      message: "Arming cameras"
-
-
-
+      message: Arming cameras
 - id: matchbrightness
   alias: Match Outside Brightness
   trigger:
@@ -694,9 +594,8 @@
     - light.floalt_panel_ws_60x60_2
     data_template:
       brightness: '{{ trigger.payload_json.Brightness }}'
-
 - id: cosyup_button
-  alias: "Toggle Living Room lights"
+  alias: Toggle Living Room lights
   trigger:
     platform: event
     event_type: click
@@ -706,184 +605,205 @@
   action:
   - service: homeassistant.toggle
     entity_id: group.living_room
-  - service: notify.html5push
-    data_template:
-      message: "Living room lights turned {{ states.group.living_room.state }}"
-
-
-
+#  - service: notify.html5push
+#    data_template:
+#      message: Living room lights turned {{ states.group.living_room.state }}
 - id: media_player_stopped
-  alias: "Media player paused/stopped"
+  alias: Media player paused/stopped
   trigger:
-    - platform: state
-      entity_id: media_player.plex_web_chrome 
-      from: 'playing'
-      to: 'paused'
-    - platform: state
-      entity_id: media_player.plex_web_chrome
-      from: 'playing'
-      to: 'idle'
-    - platform: state
-      entity_id: media_player.projector
-      from: 'playing'
-      to: 'paused'
-    - platform: state
-      entity_id: media_player.projector
-      from: 'playing'
-      to: 'idle'
-    - platform: state
-      entity_id: media_player.kodi
-      from: 'playing'
-      to: 'paused'
-    - platform: state
-      entity_id: media_player.kodi
-      from: 'playing'
-      to: 'idle'
+  - platform: state
+    entity_id: media_player.plex_web_chrome
+    from: playing
+    to: paused
+  - platform: state
+    entity_id: media_player.plex_web_chrome
+    from: playing
+    to: idle
+  - platform: state
+    entity_id: media_player.projector
+    from: playing
+    to: paused
+  - platform: state
+    entity_id: media_player.projector
+    from: playing
+    to: idle
+  - platform: state
+    entity_id: media_player.kodi
+    from: playing
+    to: paused
+  - platform: state
+    entity_id: media_player.kodi
+    from: playing
+    to: idle
   condition:
-    - condition: state
-      entity_id: sun.sun
-      state: 'below_horizon'
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
   action:
-      service: scene.turn_on
-      entity_id: scene.livingroom_normal
-
+    service: scene.turn_on
+    entity_id: scene.livingroom_normal
 - id: media_player_playing
-  alias: "Media player playing"
+  alias: Media player playing
   trigger:
-    - platform: state
-      entity_id: media_player.plex_web_chrome
-      to: 'playing'
-      from: 'paused'
-    - platform: state
-      entity_id: media_player.plex_web_chrome
-      to: 'playing'
-      from: 'idle'
-    - platform: state
-      entity_id: media_player.projector
-      to: 'playing'
-      from: 'paused'
-    - platform: state
-      entity_id: media_player.projector
-      to: 'playing'
-      from: 'idle'
-    - platform: state
-      entity_id: media_player.kodi
-      to: 'playing'
-      from: 'paused'
-    - platform: state
-      entity_id: media_player.kodi
-      to: 'playing'
-      from: 'idle'
+  - platform: state
+    entity_id: media_player.plex_web_chrome
+    to: playing
+    from: paused
+  - platform: state
+    entity_id: media_player.plex_web_chrome
+    to: playing
+    from: idle
+  - platform: state
+    entity_id: media_player.projector
+    to: playing
+    from: paused
+  - platform: state
+    entity_id: media_player.projector
+    to: playing
+    from: idle
+  - platform: state
+    entity_id: media_player.kodi
+    to: playing
+    from: paused
+  - platform: state
+    entity_id: media_player.kodi
+    to: playing
+    from: idle
   condition:
-    - condition: state
-      entity_id: sun.sun
-      state: 'below_horizon'
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
   action:
-      service: scene.turn_on
-      entity_id: scene.livingroom_dim
-  
-
-
-
+    service: scene.turn_on
+    entity_id: scene.livingroom_dim
 - id: water_dracaena
-  alias: "Remind me to water our Dracaena"
+  alias: Remind me to water our Dracaena
   trigger:
-    - platform: state
-      entity_id: plant.dracaena_plant
-      to: 'problem'
+  - platform: state
+    entity_id: plant.dracaena_plant
+    to: problem
   action:
   - service: notify.html5push
     data_template:
-      message: "Uh oh Dracaena says {{states.plant.dracaena.attributes.problem}}"
-    
+      message: Uh oh Dracaena says {{states.plant.dracaena.attributes.problem}}
 - id: thanks_dracaena
-  alias: "Thank me for watering Dracaena"
+  alias: Thank me for watering Dracaena
   trigger:
-    - platform: state
-      entity_id: plant.dracaena_plant
-      from: 'problem'
+  - platform: state
+    entity_id: plant.dracaena_plant
+    from: problem
   action:
   - service: notify.html5push
     data_template:
-      message: "Dracaena says thanks!"
-
+      message: Dracaena says thanks!
 - id: water_yucca
-  alias: "Remind me to water our Yucca"
+  alias: Remind me to water our Yucca
   trigger:
-    - platform: state
-      entity_id: plant.yucca
-      to: 'problem'
+  - platform: state
+    entity_id: plant.yucca
+    to: problem
   action:
   - service: notify.html5push
     data_template:
-      message: "Uh oh yucca says {{states.plant.yucca.attributes.problem}}"
-    
+      message: Uh oh yucca says {{states.plant.yucca.attributes.problem}}
 - id: thanks_yucca
-  alias: "Thank me for watering Yucca"
+  alias: Thank me for watering Yucca
   trigger:
-    - platform: state
-      entity_id: plant.yucca
-      from: 'problem'
+  - platform: state
+    entity_id: plant.yucca
+    from: problem
   action:
   - service: notify.html5push
     data_template:
-      message: "Yucca says thanks!"
-
+      message: Yucca says thanks!
 - id: water_bedroom_plant
-  alias: "Remind me to water our Bedroom Plant"
+  alias: Remind me to water our Bedroom Plant
   trigger:
-    - platform: state
-      entity_id: plant.bedroom_plant
-      to: 'problem'
+  - platform: state
+    entity_id: plant.bedroom_plant
+    to: problem
   action:
   - service: notify.html5push
     data_template:
-      message: "Uh oh bedroom plant says {{states.plant.bedroom_plant.attributes.problem}}"
-    
+      message: Uh oh bedroom plant says {{states.plant.bedroom_plant.attributes.problem}}
 - id: thanks_bedroom_plant
-  alias: "Thank me for watering Bedroom Plant"
+  alias: Thank me for watering Bedroom Plant
   trigger:
-    - platform: state
-      entity_id: plant.bedroom_plant
-      from: 'problem'
+  - platform: state
+    entity_id: plant.bedroom_plant
+    from: problem
   action:
   - service: notify.html5push
     data_template:
-      message: "Bedroom plant says thanks!"
+      message: Bedroom plant says thanks!
 - id: water_bedroomnew_plant
-  alias: "Remind me to water our new Bedroom Plant"
+  alias: Remind me to water our new Bedroom Plant
   trigger:
-    - platform: state
-      entity_id: plant.bedroomnew_plant
-      to: 'problem'
+  - platform: state
+    entity_id: plant.bedroomnew_plant
+    to: problem
   action:
   - service: notify.html5push
     data_template:
-      message: "Uh oh new bedroom plant says {{states.plant.bedroomnew_plant.attributes.problem}}"
-    
+      message: Uh oh new bedroom plant says {{states.plant.bedroomnew_plant.attributes.problem}}
 - id: thanks_bedroomnew_plant
-  alias: "Thank me for watering new Bedroom Plant"
+  alias: Thank me for watering new Bedroom Plant
   trigger:
-    - platform: state
-      entity_id: plant.bedroomnew_plant
-      from: 'problem'
+  - platform: state
+    entity_id: plant.bedroomnew_plant
+    from: problem
   action:
   - service: notify.html5push
     data_template:
-      message: "New Bedroom plant says thanks!"
-
+      message: New Bedroom plant says thanks!
 - alias: send_dwd_warning
-  initial_state: True
+  initial_state: true
   trigger:
-    - platform: state
-      entity_id: sensor.dwd_warn_count
-    - platform: state
-      entity_id: sensor.dwdweatherwarnings_current_warning_level
+  - platform: state
+    entity_id: sensor.dwd_warn_count
+  - platform: state
+    entity_id: sensor.dwdweatherwarnings_current_warning_level
   condition:
     condition: template
-    value_template: '{{ (trigger.to_state.state != trigger.from_state.state) and trigger.to_state.state | int > 0 }}'
+    value_template: '{{ (trigger.to_state.state != trigger.from_state.state) and trigger.to_state.state
+      | int > 0 }}'
+  action:
+#  - service: notify.html5push
+#    data_template:
+#      message: DWD Weather Warning! Check HA
+  id: 9e8a030b93644cc5ab9468eed237161b
+
+- id: '1525973107252'
+  alias: Ring Doorbell
+  trigger:
+  - entity_id: binary_sensor.doorbell
+    platform: state
+    to: 'on'
+ #   for:
+ #     milliseconds: 750
+  condition:
+    condition: state
+    entity_id: input_boolean.stealth_mode
+    state: 'off'
+
+  action:
+  - data:
+      gw_mac: 34:CE:00:83:80:EA
+      ringtone_id: '10'
+      ringtone_vol: 100
+    service: xiaomi_aqara.play_ringtone
+
+- id: '1525973107253'
+  alias: Notify Doorbell
+  trigger:
+  - entity_id: binary_sensor.doorbell
+    platform: state
+    to: 'on'
+ #   for:
+ #     milliseconds: 750
   action:
   - service: notify.html5push
     data_template:
-      message: "DWD Weather Warning! Check HA"
-
+      message: Someone just rang the doorbell!
+      data:
+        image: "https://home.tom-george.com/api/camera_proxy_stream/camera.camera_proxy__camerafront_door?api_password=This_is_a_long_password9876!"
